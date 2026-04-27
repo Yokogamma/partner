@@ -2,20 +2,22 @@
 <html lang="uk" data-theme="dark">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Партнерський кабінет Komax — прототип</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0c1219">
+<title>Партнерський кабінет Komax — мобільна версія</title>
 <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-/* === THEME VARIABLES === */
+/* === THEME === */
 :root[data-theme="dark"] {
   --bg: #0c1219;
   --bg-elev: #11181f;
-  --card: rgba(255,255,255,0.02);
+  --bg-elev-2: #161e27;
+  --card: rgba(255,255,255,0.03);
   --card-solid: #131a23;
   --border: rgba(255,255,255,0.06);
-  --border-strong: rgba(255,255,255,0.12);
+  --border-strong: rgba(255,255,255,0.10);
   --border-hover: rgba(255,255,255,0.18);
   --text: #c8d6e5;
   --text-dim: #64748b;
@@ -34,38 +36,41 @@
   --green-soft: rgba(22,163,74,0.12);
   --yellow: #ca8a04;
   --yellow-soft: rgba(202,138,4,0.14);
-  --blue: #2563eb;
-  --blue-soft: rgba(37,99,235,0.14);
+  --blue: #3b82f6;
+  --blue-soft: rgba(59,130,246,0.14);
   --shadow: 0 4px 20px rgba(0,0,0,0.4);
+  --shadow-lg: 0 8px 30px rgba(0,0,0,0.5);
 }
 :root[data-theme="light"] {
-  --bg: #f7f8fa;
+  --bg: #f4f6f9;
   --bg-elev: #ffffff;
+  --bg-elev-2: #ffffff;
   --card: #ffffff;
   --card-solid: #ffffff;
-  --border: rgba(15,23,42,0.08);
-  --border-strong: rgba(15,23,42,0.14);
+  --border: rgba(15,23,42,0.07);
+  --border-strong: rgba(15,23,42,0.12);
   --border-hover: rgba(15,23,42,0.22);
   --text: #334155;
   --text-dim: #64748b;
   --text-bright: #0f172a;
   --text-white: #020617;
   --teal: #0d9488;
-  --teal-soft: rgba(13,148,136,0.08);
-  --teal-mid: rgba(13,148,136,0.18);
+  --teal-soft: rgba(13,148,136,0.07);
+  --teal-mid: rgba(13,148,136,0.15);
   --teal-dark: #0f766e;
   --orange: #d97706;
-  --orange-soft: rgba(217,119,6,0.08);
-  --orange-mid: rgba(217,119,6,0.18);
+  --orange-soft: rgba(217,119,6,0.07);
+  --orange-mid: rgba(217,119,6,0.15);
   --red: #dc2626;
-  --red-soft: rgba(220,38,38,0.08);
+  --red-soft: rgba(220,38,38,0.07);
   --green: #16a34a;
-  --green-soft: rgba(22,163,74,0.08);
+  --green-soft: rgba(22,163,74,0.07);
   --yellow: #ca8a04;
   --yellow-soft: rgba(202,138,4,0.10);
-  --blue: #2563eb;
-  --blue-soft: rgba(37,99,235,0.08);
-  --shadow: 0 2px 14px rgba(15,23,42,0.06);
+  --blue: #3b82f6;
+  --blue-soft: rgba(59,130,246,0.08);
+  --shadow: 0 1px 3px rgba(15,23,42,0.04), 0 4px 16px rgba(15,23,42,0.06);
+  --shadow-lg: 0 4px 20px rgba(15,23,42,0.08), 0 12px 40px rgba(15,23,42,0.10);
 }
 
 :root {
@@ -73,8 +78,15 @@
   --sans: 'Onest', 'Segoe UI', sans-serif;
   --radius: 12px;
   --radius-sm: 8px;
+  --radius-lg: 16px;
+  --safe-top: env(safe-area-inset-top, 0);
+  --safe-bottom: env(safe-area-inset-bottom, 0);
 }
 
+html, body {
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
 body {
   background: var(--bg);
   font-family: var(--sans);
@@ -83,7 +95,10 @@ body {
   -webkit-font-smoothing: antialiased;
   font-feature-settings: "ss01", "cv11";
   letter-spacing: -0.005em;
+  overscroll-behavior: none;
 }
+
+button, input { font-family: inherit; }
 
 /* === LAYOUT === */
 .app {
@@ -92,7 +107,7 @@ body {
   min-height: 100vh;
 }
 
-/* === SIDEBAR === */
+/* === SIDEBAR (desktop only) === */
 .sidebar {
   background: var(--bg-elev);
   border-right: 1px solid var(--border);
@@ -117,147 +132,94 @@ body {
   font-weight: 800;
   color: white;
   font-size: 16px;
-  letter-spacing: -0.02em;
 }
-.logo-text {
-  font-weight: 700;
-  font-size: 15px;
-  color: var(--text-white);
-}
-.logo-sub {
-  font-size: 10px;
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-  color: var(--text-dim);
-  font-weight: 600;
-}
+.logo-text { font-weight: 700; font-size: 15px; color: var(--text-white); }
+.logo-sub { font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-dim); font-weight: 600; }
 
 .nav-label {
-  font-size: 10px;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  color: var(--text-dim);
-  padding: 14px 10px 8px;
-  font-weight: 700;
+  font-size: 10px; text-transform: uppercase; letter-spacing: 2px;
+  color: var(--text-dim); padding: 14px 10px 8px; font-weight: 700;
 }
 .nav-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 9px 10px;
-  border-radius: var(--radius-sm);
-  color: var(--text);
-  cursor: pointer;
-  font-size: 14px;
-  font-weight: 500;
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 10px; border-radius: var(--radius-sm);
+  color: var(--text); cursor: pointer; font-size: 14px; font-weight: 500;
   transition: background 0.15s, color 0.15s;
   border: 1px solid transparent;
   user-select: none;
 }
-.nav-item:hover {
-  background: var(--card);
-  color: var(--text-bright);
-}
+.nav-item:hover { background: var(--card); color: var(--text-bright); }
 .nav-item.active {
-  background: var(--teal-soft);
-  color: var(--teal);
-  border-color: var(--teal-mid);
-  font-weight: 600;
+  background: var(--teal-soft); color: var(--teal);
+  border-color: var(--teal-mid); font-weight: 600;
 }
-.nav-item svg {
-  width: 17px; height: 17px;
-  flex-shrink: 0;
-  opacity: 0.9;
-}
+.nav-item svg { width: 17px; height: 17px; flex-shrink: 0; opacity: 0.9; }
 .nav-badge {
-  margin-left: auto;
-  font-size: 11px;
-  background: var(--teal);
-  color: white;
-  padding: 2px 7px;
-  border-radius: 999px;
-  font-weight: 700;
-  font-family: var(--mono);
+  margin-left: auto; font-size: 11px;
+  background: var(--teal); color: white;
+  padding: 2px 7px; border-radius: 999px;
+  font-weight: 700; font-family: var(--mono);
 }
-
-.sidebar-footer {
-  margin-top: auto;
-  padding-top: 12px;
-  border-top: 1px solid var(--border);
-}
+.sidebar-footer { margin-top: auto; padding-top: 12px; border-top: 1px solid var(--border); }
 
 /* === TOP BAR === */
-.main {
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-}
+.main { display: flex; flex-direction: column; min-width: 0; }
 .topbar {
   height: 60px;
   background: var(--bg-elev);
   border-bottom: 1px solid var(--border);
-  display: flex;
-  align-items: center;
-  padding: 0 28px;
-  gap: 16px;
-  position: sticky;
-  top: 0;
-  z-index: 10;
+  display: flex; align-items: center;
+  padding: 0 28px; gap: 16px;
+  position: sticky; top: 0; z-index: 20;
 }
 .topbar-title {
-  font-size: 17px;
-  font-weight: 700;
-  color: var(--text-white);
+  font-size: 17px; font-weight: 700; color: var(--text-white);
   letter-spacing: -0.01em;
 }
+.topbar-back {
+  display: none;
+  background: none; border: none; cursor: pointer;
+  width: 36px; height: 36px;
+  border-radius: var(--radius-sm);
+  align-items: center; justify-content: center;
+  color: var(--text-bright);
+  margin-left: -8px;
+}
+.topbar-back svg { width: 20px; height: 20px; }
 .topbar-spacer { flex: 1; }
 .topbar-balance {
   font-family: var(--mono);
-  font-weight: 600;
-  font-size: 13px;
+  font-weight: 600; font-size: 13px;
   color: var(--text-bright);
   background: var(--card);
   border: 1px solid var(--border-strong);
   padding: 7px 12px;
   border-radius: var(--radius-sm);
+  white-space: nowrap;
 }
 .topbar-balance .label {
-  color: var(--text-dim);
-  font-size: 10px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  margin-right: 8px;
-  font-family: var(--sans);
-  font-weight: 700;
+  color: var(--text-dim); font-size: 10px;
+  text-transform: uppercase; letter-spacing: 1px;
+  margin-right: 8px; font-family: var(--sans); font-weight: 700;
 }
 .topbar-btn {
-  width: 36px; height: 36px;
+  width: 36px; height: 36px; min-width: 36px;
   border-radius: var(--radius-sm);
   background: var(--card);
   border: 1px solid var(--border-strong);
-  color: var(--text-bright);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  color: var(--text-bright); cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
   transition: all 0.15s;
 }
-.topbar-btn:hover {
-  border-color: var(--border-hover);
-  color: var(--text-white);
-}
+.topbar-btn:hover { border-color: var(--border-hover); color: var(--text-white); }
 .topbar-btn svg { width: 17px; height: 17px; }
 
 .avatar {
   width: 34px; height: 34px;
   border-radius: 50%;
   background: linear-gradient(135deg, var(--orange) 0%, var(--orange-mid) 100%);
-  color: white;
-  font-weight: 700;
-  font-size: 13px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  color: white; font-weight: 700; font-size: 13px;
+  display: flex; align-items: center; justify-content: center;
   cursor: pointer;
 }
 
@@ -270,20 +232,14 @@ body {
 .screen { display: none; animation: fadeIn 0.2s; }
 .screen.active { display: block; }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
 /* === SECTION HEADERS === */
 .page-title {
-  font-size: 26px;
-  font-weight: 700;
-  color: var(--text-white);
-  letter-spacing: -0.02em;
-  margin-bottom: 4px;
+  font-size: 26px; font-weight: 700; color: var(--text-white);
+  letter-spacing: -0.02em; margin-bottom: 4px;
 }
-.page-subtitle {
-  font-size: 14px;
-  color: var(--text-dim);
-  margin-bottom: 24px;
-}
+.page-subtitle { font-size: 14px; color: var(--text-dim); margin-bottom: 24px; }
 
 /* === CARDS === */
 .card {
@@ -298,10 +254,10 @@ body {
   box-shadow: var(--shadow);
 }
 
-/* === HERO ON DASHBOARD === */
+/* === HERO === */
 .hero {
   background: linear-gradient(135deg, var(--teal) 0%, var(--teal-dark) 100%);
-  border-radius: 16px;
+  border-radius: var(--radius-lg);
   padding: 28px 30px;
   color: white;
   display: grid;
@@ -315,166 +271,90 @@ body {
 .hero::before {
   content: "";
   position: absolute;
-  top: -40%;
-  right: -10%;
-  width: 400px;
-  height: 400px;
+  top: -40%; right: -10%;
+  width: 400px; height: 400px;
   background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 60%);
   pointer-events: none;
 }
-.hero-greet {
-  font-size: 13px;
-  opacity: 0.85;
-  font-weight: 500;
-  margin-bottom: 4px;
-  letter-spacing: 0.02em;
-}
-.hero-title {
-  font-size: 26px;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  line-height: 1.15;
-}
+.hero-greet { font-size: 13px; opacity: 0.85; font-weight: 500; margin-bottom: 4px; }
+.hero-title { font-size: 26px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.15; }
 .hero-cta {
-  background: white;
-  color: var(--teal-dark);
-  border: none;
-  padding: 13px 20px;
+  background: white; color: var(--teal-dark);
+  border: none; padding: 13px 20px;
   border-radius: 10px;
-  font-size: 14px;
-  font-weight: 700;
-  cursor: pointer;
-  font-family: var(--sans);
-  display: flex;
-  align-items: center;
-  gap: 8px;
+  font-size: 14px; font-weight: 700;
+  cursor: pointer; font-family: var(--sans);
+  display: flex; align-items: center; gap: 8px;
   transition: transform 0.15s;
-  z-index: 1;
-  position: relative;
+  z-index: 1; position: relative;
 }
 .hero-cta:hover { transform: translateY(-1px); }
 
-/* === STATS GRID === */
+/* === STATS === */
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 14px;
-  margin-bottom: 22px;
+  gap: 14px; margin-bottom: 22px;
 }
 .stat-card {
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 18px 20px;
-  position: relative;
-  overflow: hidden;
 }
 .stat-label {
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-  color: var(--text-dim);
-  font-weight: 700;
-  margin-bottom: 8px;
+  font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px;
+  color: var(--text-dim); font-weight: 700; margin-bottom: 8px;
 }
 .stat-value {
   font-family: var(--mono);
-  font-size: 26px;
-  font-weight: 700;
-  color: var(--text-white);
-  letter-spacing: -0.02em;
+  font-size: 26px; font-weight: 700;
+  color: var(--text-white); letter-spacing: -0.02em;
 }
-.stat-foot {
-  font-size: 12px;
-  color: var(--text-dim);
-  margin-top: 6px;
-}
+.stat-foot { font-size: 12px; color: var(--text-dim); margin-top: 6px; }
 .stat-card.accent { border-color: var(--teal-mid); background: var(--teal-soft); }
 .stat-card.accent .stat-value { color: var(--teal); }
 .stat-card.warn .stat-value { color: var(--orange); }
 
-/* === DASHBOARD ROW === */
-.dash-row {
-  display: grid;
-  grid-template-columns: 1fr 320px;
-  gap: 18px;
-}
+/* === DASHBOARD === */
+.dash-row { display: grid; grid-template-columns: 1fr 320px; gap: 18px; }
 
-/* === RECENT ORDERS LIST === */
 .section-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  display: flex; align-items: center; justify-content: space-between;
   margin-bottom: 14px;
 }
 .section-title {
-  font-size: 15px;
-  font-weight: 700;
-  color: var(--text-white);
+  font-size: 15px; font-weight: 700; color: var(--text-white);
   letter-spacing: -0.01em;
 }
 .section-link {
-  font-size: 13px;
-  color: var(--teal);
-  text-decoration: none;
-  font-weight: 600;
-  cursor: pointer;
+  font-size: 13px; color: var(--teal); text-decoration: none;
+  font-weight: 600; cursor: pointer;
 }
 .section-link:hover { text-decoration: underline; }
 
 .order-row {
   display: grid;
   grid-template-columns: 90px 1fr auto auto;
-  gap: 14px;
-  align-items: center;
+  gap: 14px; align-items: center;
   padding: 12px 0;
   border-bottom: 1px solid var(--border);
 }
 .order-row:last-child { border-bottom: none; }
-.order-num {
-  font-family: var(--mono);
-  font-weight: 700;
-  font-size: 13px;
-  color: var(--text-bright);
-}
-.order-meta {
-  font-size: 12px;
-  color: var(--text-dim);
-  margin-top: 2px;
-}
-.order-desc {
-  font-size: 13px;
-  color: var(--text);
-  line-height: 1.4;
-}
-.order-sum {
-  font-family: var(--mono);
-  font-weight: 700;
-  color: var(--text-white);
-  font-size: 14px;
-  text-align: right;
-}
+.order-num { font-family: var(--mono); font-weight: 700; font-size: 13px; color: var(--text-bright); }
+.order-meta { font-size: 12px; color: var(--text-dim); margin-top: 2px; }
+.order-desc { font-size: 13px; color: var(--text); line-height: 1.4; }
+.order-sum { font-family: var(--mono); font-weight: 700; color: var(--text-white); font-size: 14px; text-align: right; }
 
 /* === STATUS BADGES === */
 .badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  padding: 4px 9px;
-  border-radius: 999px;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.02em;
-  white-space: nowrap;
-  text-transform: uppercase;
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 4px 9px; border-radius: 999px;
+  font-size: 11px; font-weight: 700; letter-spacing: 0.02em;
+  white-space: nowrap; text-transform: uppercase;
   border: 1px solid transparent;
 }
-.badge::before {
-  content: "";
-  width: 6px; height: 6px;
-  border-radius: 50%;
-  background: currentColor;
-}
+.badge::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
 .badge.draft { background: var(--card); color: var(--text-dim); border-color: var(--border-strong); }
 .badge.review { background: var(--blue-soft); color: var(--blue); border-color: var(--blue-soft); }
 .badge.clarify { background: var(--yellow-soft); color: var(--yellow); border-color: var(--yellow-soft); }
@@ -483,86 +363,53 @@ body {
 .badge.shipped { background: var(--blue-soft); color: var(--blue); border-color: var(--blue-soft); }
 .badge.completed { background: var(--green-soft); color: var(--green); border-color: var(--green-soft); }
 .badge.cancelled { background: var(--card); color: var(--text-dim); border-color: var(--border-strong); }
-.badge.error { background: var(--red-soft); color: var(--red); border-color: var(--red-soft); }
 .badge.locked { background: var(--card); color: var(--text-dim); border-color: var(--border-strong); }
 .badge.locked::before { display: none; }
 
 /* === MANAGER CARD === */
-.mgr-card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 18px;
-}
-.mgr-head {
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-  color: var(--text-dim);
-  font-weight: 700;
-  margin-bottom: 14px;
-}
-.mgr-person {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-  margin-bottom: 14px;
-}
+.mgr-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px; }
+.mgr-head { font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-dim); font-weight: 700; margin-bottom: 14px; }
+.mgr-person { display: flex; gap: 12px; align-items: center; margin-bottom: 14px; }
 .mgr-avatar {
-  width: 44px; height: 44px;
-  border-radius: 50%;
+  width: 44px; height: 44px; border-radius: 50%;
   background: linear-gradient(135deg, #6366f1, #4338ca);
-  color: white;
-  font-weight: 700;
-  font-size: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  color: white; font-weight: 700; font-size: 16px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
 }
 .mgr-name { font-weight: 700; font-size: 14px; color: var(--text-white); }
 .mgr-role { font-size: 12px; color: var(--text-dim); }
 .mgr-contacts { display: flex; flex-direction: column; gap: 8px; }
 .mgr-contact {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 13px;
-  color: var(--text);
-  text-decoration: none;
-  padding: 7px 10px;
+  display: flex; align-items: center; gap: 8px;
+  font-size: 13px; color: var(--text); text-decoration: none;
+  padding: 9px 12px;
   background: var(--card-solid);
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
-  font-family: var(--mono);
-  cursor: pointer;
+  font-family: var(--mono); cursor: pointer;
+  min-height: 44px;
 }
 .mgr-contact:hover { border-color: var(--border-hover); }
-.mgr-contact svg { width: 14px; height: 14px; color: var(--teal); }
+.mgr-contact svg { width: 14px; height: 14px; color: var(--teal); flex-shrink: 0; }
 
 /* === TABS === */
 .tabs {
-  display: flex;
-  gap: 4px;
+  display: flex; gap: 4px;
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: 10px;
-  padding: 4px;
-  margin-bottom: 18px;
+  padding: 4px; margin-bottom: 18px;
   width: fit-content;
 }
 .tabs.full { width: 100%; }
 .tabs.full .tab { flex: 1; }
 .tab {
-  padding: 8px 16px;
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--text-dim);
-  cursor: pointer;
-  border-radius: 7px;
-  border: none;
-  background: none;
-  font-family: var(--sans);
-  transition: all 0.15s;
+  padding: 8px 16px; font-size: 13px; font-weight: 600;
+  color: var(--text-dim); cursor: pointer;
+  border-radius: 7px; border: none; background: none;
+  font-family: var(--sans); transition: all 0.15s;
+  white-space: nowrap;
 }
 .tab.active {
   background: var(--bg-elev);
@@ -570,20 +417,10 @@ body {
   box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
 .tab:not(.active):hover { color: var(--text); }
-.tab .count {
-  font-family: var(--mono);
-  font-size: 11px;
-  margin-left: 6px;
-  opacity: 0.7;
-}
+.tab .count { font-family: var(--mono); font-size: 11px; margin-left: 6px; opacity: 0.7; }
 
-/* === FILTERS BAR === */
-.filters {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 16px;
-  align-items: center;
-}
+/* === FILTERS === */
+.filters { display: flex; gap: 10px; margin-bottom: 16px; align-items: center; }
 .search-input {
   flex: 1;
   background: var(--card);
@@ -591,26 +428,21 @@ body {
   border-radius: var(--radius-sm);
   padding: 10px 14px;
   color: var(--text-bright);
-  font-family: var(--sans);
-  font-size: 13px;
-  outline: none;
-  transition: border-color 0.15s;
+  font-family: var(--sans); font-size: 13px;
+  outline: none; transition: border-color 0.15s;
+  min-height: 44px;
 }
 .search-input:focus { border-color: var(--teal); }
 .search-input::placeholder { color: var(--text-dim); }
 .filter-btn {
   background: var(--card);
   border: 1px solid var(--border-strong);
-  color: var(--text);
-  padding: 9px 14px;
+  color: var(--text); padding: 9px 14px;
   border-radius: var(--radius-sm);
-  font-family: var(--sans);
-  font-size: 13px;
-  font-weight: 500;
+  font-family: var(--sans); font-size: 13px; font-weight: 500;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 6px;
+  display: flex; align-items: center; gap: 6px;
+  min-height: 44px;
 }
 .filter-btn:hover { border-color: var(--border-hover); }
 
@@ -621,26 +453,17 @@ body {
   border-radius: var(--radius);
   overflow: hidden;
 }
-.table {
-  width: 100%;
-  border-collapse: collapse;
-}
+.table { width: 100%; border-collapse: collapse; }
 .table thead th {
   text-align: left;
-  font-size: 10px;
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-  color: var(--text-dim);
-  padding: 13px 16px;
-  font-weight: 700;
-  border-bottom: 1px solid var(--border);
+  font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px;
+  color: var(--text-dim); padding: 13px 16px;
+  font-weight: 700; border-bottom: 1px solid var(--border);
   background: var(--bg-elev);
 }
 .table thead th:last-child, .table tbody td:last-child { text-align: right; }
 .table tbody td {
-  padding: 14px 16px;
-  font-size: 13px;
-  color: var(--text);
+  padding: 14px 16px; font-size: 13px; color: var(--text);
   border-bottom: 1px solid var(--border);
 }
 .table tbody tr:last-child td { border-bottom: none; }
@@ -649,6 +472,39 @@ body {
 .table .col-num { font-family: var(--mono); font-weight: 700; color: var(--text-bright); }
 .table .col-sum { font-family: var(--mono); font-weight: 700; color: var(--text-white); text-align: right; }
 .table .col-date { font-family: var(--mono); color: var(--text-dim); font-size: 12px; }
+
+/* === ORDER CARDS (mobile-friendly alt to table) === */
+.order-cards { display: none; flex-direction: column; gap: 10px; }
+.order-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  cursor: pointer;
+  transition: border-color 0.15s, transform 0.1s;
+}
+.order-card:active { transform: scale(0.99); }
+.order-card-top {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 10px;
+}
+.order-card-num {
+  font-family: var(--mono); font-weight: 700;
+  font-size: 15px; color: var(--text-white);
+}
+.order-card-desc {
+  font-size: 13px; color: var(--text);
+  line-height: 1.4; margin-bottom: 10px;
+}
+.order-card-bot {
+  display: flex; justify-content: space-between; align-items: center;
+  padding-top: 10px; border-top: 1px solid var(--border);
+}
+.order-card-date { font-family: var(--mono); font-size: 12px; color: var(--text-dim); }
+.order-card-sum {
+  font-family: var(--mono); font-weight: 700;
+  font-size: 15px; color: var(--text-white);
+}
 
 /* === CALCULATOR === */
 .calc-wrap {
@@ -660,37 +516,24 @@ body {
 .calc-form { display: flex; flex-direction: column; gap: 14px; }
 
 .cat-tabs {
-  display: flex;
-  gap: 4px;
+  display: flex; gap: 4px;
   background: var(--card);
   border-radius: 10px;
   padding: 4px;
   border: 1px solid var(--border);
 }
 .cat-tab {
-  flex: 1;
-  padding: 11px 0;
+  flex: 1; padding: 12px 0;
   text-align: center;
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--text-dim);
-  cursor: pointer;
-  border-radius: 7px;
-  border: 1px solid transparent;
-  background: none;
-  font-family: var(--sans);
+  font-size: 13px; font-weight: 700;
+  color: var(--text-dim); cursor: pointer;
+  border-radius: 7px; border: 1px solid transparent;
+  background: none; font-family: var(--sans);
   letter-spacing: 0.5px;
+  min-height: 44px;
 }
-.cat-tab.active-win {
-  background: var(--teal-soft);
-  color: var(--teal);
-  border-color: var(--teal-mid);
-}
-.cat-tab.active-door {
-  background: var(--orange-soft);
-  color: var(--orange);
-  border-color: var(--orange-mid);
-}
+.cat-tab.active-win { background: var(--teal-soft); color: var(--teal); border-color: var(--teal-mid); }
+.cat-tab.active-door { background: var(--orange-soft); color: var(--orange); border-color: var(--orange-mid); }
 
 .type-tabs {
   display: grid;
@@ -702,41 +545,21 @@ body {
   border: 1px solid var(--border);
 }
 .type-tab {
-  padding: 9px 4px;
-  text-align: center;
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--text-dim);
-  cursor: pointer;
-  border-radius: 7px;
-  border: 1px solid transparent;
-  background: none;
-  font-family: var(--sans);
+  padding: 10px 4px; text-align: center;
+  font-size: 12px; font-weight: 600;
+  color: var(--text-dim); cursor: pointer;
+  border-radius: 7px; border: 1px solid transparent;
+  background: none; font-family: var(--sans);
   line-height: 1.3;
+  min-height: 44px;
 }
-.type-tab.active {
-  background: var(--teal-soft);
-  color: var(--teal);
-  border-color: var(--teal-mid);
-}
-.type-tab.active-d {
-  background: var(--orange-soft);
-  color: var(--orange);
-  border-color: var(--orange-mid);
-}
+.type-tab.active { background: var(--teal-soft); color: var(--teal); border-color: var(--teal-mid); }
+.type-tab.active-d { background: var(--orange-soft); color: var(--orange); border-color: var(--orange-mid); }
 
-.inputs-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr 0.6fr;
-  gap: 12px;
-}
+.inputs-row { display: grid; grid-template-columns: 1fr 1fr 0.6fr; gap: 12px; }
 .field-label {
-  font-size: 10px;
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-  color: var(--text-dim);
-  margin-bottom: 6px;
-  display: block;
+  font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px;
+  color: var(--text-dim); margin-bottom: 6px; display: block;
   font-weight: 700;
 }
 .field-input {
@@ -747,45 +570,29 @@ body {
   color: var(--text-bright);
   font-size: 16px;
   font-family: var(--mono);
-  width: 100%;
-  outline: none;
+  width: 100%; outline: none;
   font-weight: 600;
   transition: border-color 0.15s;
+  min-height: 48px;
 }
 .field-input:focus { border-color: var(--teal); }
 
-.color-row {
-  display: flex;
-  gap: 8px;
-}
+.color-row { display: flex; gap: 8px; }
 .color-btn {
   flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 11px 8px;
-  font-size: 12px;
-  font-weight: 600;
+  display: flex; align-items: center; justify-content: center;
+  gap: 8px; padding: 12px 8px;
+  font-size: 12px; font-weight: 600;
   font-family: var(--sans);
   color: var(--text-dim);
   background: var(--card);
   border: 1px solid var(--border-strong);
   border-radius: var(--radius-sm);
-  cursor: pointer;
-  transition: all 0.15s;
+  cursor: pointer; transition: all 0.15s;
+  min-height: 48px;
 }
-.color-btn.active {
-  border-color: var(--teal);
-  color: var(--text-bright);
-  background: var(--teal-soft);
-}
-.color-dot {
-  width: 14px; height: 14px;
-  border-radius: 50%;
-  border: 1px solid rgba(0,0,0,0.15);
-  flex-shrink: 0;
-}
+.color-btn.active { border-color: var(--teal); color: var(--text-bright); background: var(--teal-soft); }
+.color-dot { width: 14px; height: 14px; border-radius: 50%; border: 1px solid rgba(0,0,0,0.15); flex-shrink: 0; }
 
 /* === PRICE BLOCK === */
 .price-card {
@@ -795,245 +602,140 @@ body {
   color: white;
   display: grid;
   grid-template-columns: 1fr auto;
-  align-items: end;
-  gap: 16px;
-  position: relative;
-  overflow: hidden;
+  align-items: end; gap: 16px;
+  position: relative; overflow: hidden;
 }
 .price-card.door { background: linear-gradient(135deg, var(--orange) 0%, #b45309 100%); }
 .price-card::before {
-  content: "";
-  position: absolute;
-  bottom: -50%;
-  right: -10%;
-  width: 250px;
-  height: 250px;
+  content: ""; position: absolute;
+  bottom: -50%; right: -10%;
+  width: 250px; height: 250px;
   background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 60%);
 }
 .price-label {
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  font-weight: 700;
-  opacity: 0.85;
-  margin-bottom: 4px;
+  font-size: 11px; text-transform: uppercase; letter-spacing: 2px;
+  font-weight: 700; opacity: 0.85; margin-bottom: 4px;
 }
 .price-amount {
-  font-family: var(--mono);
-  font-size: 36px;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  line-height: 1;
+  font-family: var(--mono); font-size: 36px; font-weight: 700;
+  letter-spacing: -0.02em; line-height: 1;
 }
-.price-meta {
-  font-size: 12px;
-  opacity: 0.85;
-  margin-top: 6px;
-}
+.price-meta { font-size: 12px; opacity: 0.85; margin-top: 6px; }
 .price-qty {
   text-align: right;
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-  opacity: 0.8;
-  font-weight: 600;
+  font-size: 11px; text-transform: uppercase;
+  letter-spacing: 1.5px; opacity: 0.8; font-weight: 600;
 }
 .price-qty .v {
-  display: block;
-  font-family: var(--mono);
-  font-size: 22px;
-  font-weight: 700;
-  margin-top: 4px;
+  display: block; font-family: var(--mono);
+  font-size: 22px; font-weight: 700; margin-top: 4px;
 }
 
 /* === BUTTONS === */
 .btn {
-  border: none;
-  font-family: var(--sans);
-  cursor: pointer;
-  font-weight: 600;
-  font-size: 14px;
-  padding: 12px 20px;
+  border: none; font-family: var(--sans);
+  cursor: pointer; font-weight: 600; font-size: 14px;
+  padding: 13px 20px;
   border-radius: var(--radius-sm);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  transition: all 0.15s;
+  display: inline-flex; align-items: center; justify-content: center;
+  gap: 8px; transition: all 0.15s;
+  min-height: 48px;
 }
 .btn-primary { background: var(--teal); color: white; }
 .btn-primary:hover { background: var(--teal-dark); }
 .btn-add {
-  width: 100%;
-  padding: 14px;
-  font-size: 14px;
-  font-weight: 700;
-  font-family: var(--sans);
-  color: var(--teal);
-  cursor: pointer;
+  width: 100%; padding: 14px;
+  font-size: 14px; font-weight: 700; font-family: var(--sans);
+  color: var(--teal); cursor: pointer;
   background: var(--teal-soft);
   border: 2px dashed var(--teal-mid);
   border-radius: var(--radius);
   transition: all 0.15s;
+  min-height: 50px;
 }
 .btn-add:hover { background: var(--teal-mid); border-color: var(--teal); }
 .btn-secondary {
-  background: var(--card);
-  color: var(--text-bright);
+  background: var(--card); color: var(--text-bright);
   border: 1px solid var(--border-strong);
 }
 .btn-secondary:hover { border-color: var(--border-hover); }
-.btn-ghost {
-  background: transparent;
-  color: var(--text);
-  border: 1px solid var(--border-strong);
-}
+.btn-ghost { background: transparent; color: var(--text); border: 1px solid var(--border-strong); }
 .btn-block { width: 100%; }
 .btn svg { width: 16px; height: 16px; }
 
-/* === CART (DRAFT ORDER) === */
+/* === CART === */
 .cart-card {
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 18px;
-  position: sticky;
-  top: 80px;
+  position: sticky; top: 80px;
 }
 .cart-title {
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-  color: var(--text-dim);
-  font-weight: 700;
-  margin-bottom: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px;
+  color: var(--text-dim); font-weight: 700; margin-bottom: 12px;
+  display: flex; align-items: center; justify-content: space-between;
 }
-.cart-empty {
-  text-align: center;
-  padding: 24px 8px;
-  color: var(--text-dim);
-  font-size: 13px;
-}
+.cart-empty { text-align: center; padding: 24px 8px; color: var(--text-dim); font-size: 13px; }
 .cart-empty-icon { font-size: 28px; opacity: 0.3; margin-bottom: 8px; }
 .cart-item {
-  display: grid;
-  grid-template-columns: 1fr auto auto;
-  gap: 10px;
-  align-items: center;
+  display: grid; grid-template-columns: 1fr auto auto;
+  gap: 10px; align-items: center;
   padding: 10px 0;
   border-bottom: 1px solid var(--border);
 }
 .cart-item:last-of-type { border-bottom: none; }
 .cart-name {
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--text-bright);
-  margin-bottom: 3px;
-  line-height: 1.3;
+  font-size: 13px; font-weight: 600; color: var(--text-bright);
+  margin-bottom: 3px; line-height: 1.3;
 }
-.cart-details {
-  font-size: 11px;
-  color: var(--text-dim);
-  font-family: var(--mono);
-}
-.cart-price {
-  font-family: var(--mono);
-  font-weight: 700;
-  color: var(--text-white);
-  font-size: 13px;
-}
+.cart-details { font-size: 11px; color: var(--text-dim); font-family: var(--mono); }
+.cart-price { font-family: var(--mono); font-weight: 700; color: var(--text-white); font-size: 13px; }
 .cart-del {
-  background: none;
-  border: none;
-  color: var(--text-dim);
-  cursor: pointer;
-  font-size: 14px;
-  padding: 4px 6px;
-  border-radius: 4px;
+  background: none; border: none; color: var(--text-dim);
+  cursor: pointer; font-size: 14px; padding: 6px 8px;
+  border-radius: 4px; min-width: 32px; min-height: 32px;
 }
 .cart-del:hover { color: var(--red); background: var(--red-soft); }
 .cart-total {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 14px 0 8px;
-  margin-top: 6px;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 14px 0 8px; margin-top: 6px;
   border-top: 1px solid var(--border);
 }
-.cart-total-label {
-  font-size: 12px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  color: var(--text-dim);
-  font-weight: 700;
-}
+.cart-total-label { font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-dim); font-weight: 700; }
 .cart-total-val {
-  font-family: var(--mono);
-  font-size: 22px;
-  font-weight: 700;
-  color: var(--text-white);
-  letter-spacing: -0.01em;
+  font-family: var(--mono); font-size: 22px; font-weight: 700;
+  color: var(--text-white); letter-spacing: -0.01em;
 }
-.cart-meta {
-  margin-top: 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-.cart-meta-row { display: flex; gap: 8px; align-items: center; }
-.cart-meta-row .field-label { margin-bottom: 0; flex-shrink: 0; min-width: 50px; }
-.cart-actions {
-  margin-top: 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
+.cart-meta { margin-top: 16px; display: flex; flex-direction: column; gap: 10px; }
+.cart-actions { margin-top: 16px; display: flex; flex-direction: column; gap: 8px; }
 
 /* === ORDER DETAIL === */
 .order-head {
-  display: flex;
-  align-items: flex-start;
-  gap: 16px;
-  margin-bottom: 24px;
-  flex-wrap: wrap;
+  display: flex; align-items: flex-start; gap: 16px;
+  margin-bottom: 24px; flex-wrap: wrap;
 }
-.order-head-num {
-  font-family: var(--mono);
-  font-size: 28px;
-  font-weight: 700;
-  color: var(--text-white);
-  letter-spacing: -0.01em;
-}
+.order-head-num { font-family: var(--mono); font-size: 28px; font-weight: 700; color: var(--text-white); letter-spacing: -0.01em; }
 .order-head-meta {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  margin-top: 4px;
-  font-size: 13px;
-  color: var(--text-dim);
+  display: flex; gap: 8px; align-items: center;
+  margin-top: 4px; font-size: 13px; color: var(--text-dim);
+  flex-wrap: wrap;
 }
 
 /* === STEPPER === */
 .stepper {
-  display: flex;
-  align-items: center;
+  display: flex; align-items: flex-start;
   margin-bottom: 24px;
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 18px 20px;
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 .step {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  flex: 1;
-  position: relative;
+  display: flex; flex-direction: column; align-items: center;
+  gap: 8px; flex: 1; position: relative;
   min-width: 80px;
 }
 .step-dot {
@@ -1041,104 +743,86 @@ body {
   border-radius: 50%;
   background: var(--card-solid);
   border: 2px solid var(--border-strong);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--mono);
-  font-size: 11px;
-  font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--mono); font-size: 11px; font-weight: 700;
   color: var(--text-dim);
   z-index: 1;
 }
-.step.done .step-dot {
-  background: var(--teal);
-  border-color: var(--teal);
-  color: white;
-}
+.step.done .step-dot { background: var(--teal); border-color: var(--teal); color: white; }
 .step.current .step-dot {
-  background: var(--bg-elev);
-  border-color: var(--orange);
+  background: var(--bg-elev); border-color: var(--orange);
   color: var(--orange);
   box-shadow: 0 0 0 4px var(--orange-soft);
 }
-.step-label {
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--text-dim);
-  text-align: center;
-  line-height: 1.2;
-}
-.step.done .step-label, .step.current .step-label {
-  color: var(--text-bright);
-}
+.step-label { font-size: 11px; font-weight: 600; color: var(--text-dim); text-align: center; line-height: 1.2; }
+.step.done .step-label, .step.current .step-label { color: var(--text-bright); }
 .step:not(:last-child)::after {
-  content: "";
-  position: absolute;
-  top: 14px;
-  left: 50%;
-  width: 100%;
-  height: 2px;
-  background: var(--border-strong);
-  z-index: 0;
+  content: ""; position: absolute;
+  top: 14px; left: 50%; width: 100%; height: 2px;
+  background: var(--border-strong); z-index: 0;
 }
 .step.done:not(:last-child)::after { background: var(--teal); }
 
-/* === ORDER COLUMNS === */
-.order-cols {
-  display: grid;
-  grid-template-columns: 1fr 320px;
-  gap: 18px;
-  align-items: start;
+/* Compact stepper for mobile - shows current state only */
+.stepper-compact { display: none; }
+.stepper-compact-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin-bottom: 18px;
 }
-.order-positions {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-top: 12px;
+.stepper-compact-current {
+  display: flex; align-items: center; gap: 12px;
+  margin-bottom: 12px;
 }
+.stepper-compact-dot {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: var(--orange-soft);
+  border: 2px solid var(--orange);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.stepper-compact-dot svg { color: var(--orange); width: 18px; height: 18px; }
+.stepper-compact-label { font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-dim); font-weight: 700; }
+.stepper-compact-value { font-size: 15px; font-weight: 700; color: var(--text-white); margin-top: 2px; }
+.stepper-compact-progress {
+  display: flex; gap: 4px;
+  margin-top: 8px;
+}
+.stepper-compact-pip {
+  flex: 1; height: 4px; border-radius: 2px;
+  background: var(--border-strong);
+}
+.stepper-compact-pip.done { background: var(--teal); }
+.stepper-compact-pip.current { background: var(--orange); }
+
+/* === ORDER COLS === */
+.order-cols { display: grid; grid-template-columns: 1fr 320px; gap: 18px; align-items: start; }
+.order-positions { display: flex; flex-direction: column; gap: 10px; margin-top: 12px; }
 .pos-row {
-  display: grid;
-  grid-template-columns: 1fr auto auto;
-  gap: 14px;
-  align-items: center;
+  display: grid; grid-template-columns: 1fr auto auto;
+  gap: 14px; align-items: center;
   padding: 12px 14px;
   background: var(--card-solid);
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
 }
-.pos-name {
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--text-bright);
-}
-.pos-spec {
-  font-size: 11px;
-  color: var(--text-dim);
-  font-family: var(--mono);
-  margin-top: 2px;
-}
-.pos-qty {
-  font-family: var(--mono);
-  font-size: 12px;
-  color: var(--text-dim);
-}
-.pos-sum {
-  font-family: var(--mono);
-  font-size: 14px;
-  font-weight: 700;
-  color: var(--text-white);
-}
+.pos-name { font-size: 13px; font-weight: 600; color: var(--text-bright); }
+.pos-spec { font-size: 11px; color: var(--text-dim); font-family: var(--mono); margin-top: 2px; }
+.pos-qty { font-family: var(--mono); font-size: 12px; color: var(--text-dim); }
+.pos-sum { font-family: var(--mono); font-size: 14px; font-weight: 700; color: var(--text-white); }
 
 .info-row {
-  display: flex;
-  justify-content: space-between;
+  display: flex; justify-content: space-between;
   padding: 10px 0;
   border-bottom: 1px solid var(--border);
-  font-size: 13px;
+  font-size: 13px; gap: 12px;
 }
 .info-row:last-child { border-bottom: none; }
-.info-row .k { color: var(--text-dim); }
-.info-row .v { color: var(--text-bright); font-weight: 600; }
+.info-row .k { color: var(--text-dim); flex-shrink: 0; }
+.info-row .v { color: var(--text-bright); font-weight: 600; text-align: right; }
 .info-row .v.mono { font-family: var(--mono); }
 
 .alert-clarify {
@@ -1150,64 +834,39 @@ body {
   margin-bottom: 18px;
 }
 .alert-clarify-head {
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-  color: var(--yellow);
-  font-weight: 700;
-  margin-bottom: 6px;
+  font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px;
+  color: var(--yellow); font-weight: 700; margin-bottom: 6px;
 }
-.alert-clarify-body {
-  font-size: 13px;
-  color: var(--text-bright);
-  line-height: 1.5;
-}
+.alert-clarify-body { font-size: 13px; color: var(--text-bright); line-height: 1.5; }
 
 /* === TIMELINE === */
 .timeline { display: flex; flex-direction: column; }
 .tl-item {
-  display: grid;
-  grid-template-columns: 16px 1fr;
-  gap: 12px;
-  position: relative;
+  display: grid; grid-template-columns: 16px 1fr;
+  gap: 12px; position: relative;
   padding-bottom: 16px;
 }
 .tl-item:not(:last-child)::before {
-  content: "";
-  position: absolute;
-  left: 7px;
-  top: 16px;
-  bottom: 0;
-  width: 2px;
-  background: var(--border-strong);
+  content: ""; position: absolute;
+  left: 7px; top: 16px; bottom: 0;
+  width: 2px; background: var(--border-strong);
 }
 .tl-dot {
   width: 14px; height: 14px;
   border-radius: 50%;
   background: var(--teal);
-  margin-top: 2px;
-  z-index: 1;
+  margin-top: 2px; z-index: 1;
   border: 3px solid var(--bg-elev);
   box-shadow: 0 0 0 1px var(--border-strong);
 }
-.tl-content {
-  font-size: 13px;
-  color: var(--text);
-}
+.tl-content { font-size: 13px; color: var(--text); }
 .tl-content strong { color: var(--text-bright); }
-.tl-time {
-  font-size: 11px;
-  color: var(--text-dim);
-  font-family: var(--mono);
-  margin-top: 2px;
-}
+.tl-time { font-size: 11px; color: var(--text-dim); font-family: var(--mono); margin-top: 2px; }
 
 /* === LEDGER === */
 .balance-cards {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 14px;
-  margin-bottom: 22px;
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 14px; margin-bottom: 22px;
 }
 .bal-card {
   background: var(--card);
@@ -1215,70 +874,88 @@ body {
   border-radius: var(--radius);
   padding: 20px 22px;
 }
-.bal-curr {
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  color: var(--text-dim);
-  font-weight: 700;
-  margin-bottom: 6px;
-}
+.bal-curr { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: var(--text-dim); font-weight: 700; margin-bottom: 6px; }
 .bal-amount {
-  font-family: var(--mono);
-  font-size: 28px;
-  font-weight: 700;
-  color: var(--text-white);
-  letter-spacing: -0.01em;
+  font-family: var(--mono); font-size: 28px; font-weight: 700;
+  color: var(--text-white); letter-spacing: -0.01em;
 }
 .bal-amount.positive { color: var(--green); }
 .bal-amount.negative { color: var(--red); }
 
-.ledger-amount {
-  font-family: var(--mono);
-  font-weight: 700;
-  font-size: 13px;
-}
+.ledger-amount { font-family: var(--mono); font-weight: 700; font-size: 13px; }
 .ledger-amount.positive { color: var(--green); }
 .ledger-amount.negative { color: var(--red); }
 
+/* === LEDGER MOBILE CARDS === */
+.ledger-cards { display: none; flex-direction: column; gap: 8px; }
+.ledger-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+}
+.ledger-card-top {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  margin-bottom: 8px;
+}
+.ledger-card-amount {
+  font-family: var(--mono); font-weight: 700;
+  font-size: 17px;
+}
+.ledger-card-desc { font-size: 13px; color: var(--text); margin-bottom: 8px; line-height: 1.4; }
+.ledger-card-foot {
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 11px; color: var(--text-dim); font-family: var(--mono);
+  padding-top: 8px;
+  border-top: 1px solid var(--border);
+}
+
+/* === DOCS MOBILE CARDS === */
+.doc-cards { display: none; flex-direction: column; gap: 8px; }
+.doc-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  display: flex; gap: 12px; align-items: center;
+}
+.doc-card-icon {
+  width: 40px; height: 40px;
+  background: var(--teal-soft);
+  border-radius: var(--radius-sm);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--teal);
+  flex-shrink: 0;
+}
+.doc-card-icon svg { width: 18px; height: 18px; }
+.doc-card-info { flex: 1; min-width: 0; }
+.doc-card-num { font-family: var(--mono); font-weight: 700; font-size: 14px; color: var(--text-white); }
+.doc-card-meta { font-size: 12px; color: var(--text-dim); margin-top: 2px; }
+.doc-card-sum { font-family: var(--mono); font-weight: 700; font-size: 14px; color: var(--text-white); }
+
 /* === PROFILE === */
 .profile-tabs {
-  display: flex;
-  gap: 0;
+  display: flex; gap: 0;
   border-bottom: 1px solid var(--border);
   margin-bottom: 22px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 .profile-tab {
-  padding: 12px 18px;
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--text-dim);
-  cursor: pointer;
-  background: none;
-  border: none;
+  padding: 12px 18px; font-size: 13px; font-weight: 600;
+  color: var(--text-dim); cursor: pointer;
+  background: none; border: none;
   border-bottom: 2px solid transparent;
   font-family: var(--sans);
   margin-bottom: -1px;
+  white-space: nowrap;
+  min-height: 44px;
 }
-.profile-tab.active {
-  color: var(--teal);
-  border-bottom-color: var(--teal);
-}
-
-.field-disabled {
-  opacity: 0.6;
-  pointer-events: none;
-}
-.lock-note {
-  font-size: 11px;
-  color: var(--text-dim);
-  margin-top: 4px;
-}
+.profile-tab.active { color: var(--teal); border-bottom-color: var(--teal); }
+.lock-note { font-size: 11px; color: var(--text-dim); margin-top: 8px; }
 
 .google-card {
-  display: flex;
-  align-items: center;
-  gap: 14px;
+  display: flex; align-items: center; gap: 14px;
   padding: 16px;
   background: var(--card-solid);
   border: 1px solid var(--border);
@@ -1288,95 +965,117 @@ body {
   width: 40px; height: 40px;
   background: white;
   border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 700;
-  font-size: 18px;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 18px;
   color: #4285f4;
   border: 1px solid #e8e8e8;
+  flex-shrink: 0;
 }
-.google-info { flex: 1; }
-.google-email {
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--text-bright);
-  font-family: var(--mono);
-}
-.google-status {
-  font-size: 11px;
-  color: var(--green);
-  font-weight: 600;
-  margin-top: 2px;
-}
+.google-info { flex: 1; min-width: 0; }
+.google-email { font-size: 14px; font-weight: 600; color: var(--text-bright); font-family: var(--mono); word-break: break-all; }
+.google-status { font-size: 11px; color: var(--green); font-weight: 600; margin-top: 2px; }
 
-/* === LOGIN SCREEN === */
+/* === LOGIN === */
 .login-wrap {
-  position: fixed;
-  inset: 0;
+  position: fixed; inset: 0;
   background: var(--bg);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: flex; align-items: center; justify-content: center;
   padding: 20px;
+  padding-top: max(20px, var(--safe-top));
+  padding-bottom: max(20px, var(--safe-bottom));
   z-index: 100;
 }
 .login-card {
   background: var(--card-solid);
   border: 1px solid var(--border);
-  border-radius: 16px;
+  border-radius: var(--radius-lg);
   padding: 40px 32px;
-  max-width: 380px;
-  width: 100%;
+  max-width: 380px; width: 100%;
   text-align: center;
-  box-shadow: var(--shadow);
+  box-shadow: var(--shadow-lg);
 }
 .login-logo {
-  width: 56px; height: 56px;
+  width: 64px; height: 64px;
   background: linear-gradient(135deg, var(--teal) 0%, var(--teal-dark) 100%);
-  border-radius: 14px;
+  border-radius: 16px;
   margin: 0 auto 20px;
   display: flex; align-items: center; justify-content: center;
-  font-weight: 800;
-  color: white;
-  font-size: 24px;
-  letter-spacing: -0.02em;
+  font-weight: 800; color: white; font-size: 28px;
 }
-.login-title {
-  font-size: 22px;
-  font-weight: 700;
-  color: var(--text-white);
-  letter-spacing: -0.02em;
-  margin-bottom: 6px;
-}
-.login-sub {
-  font-size: 14px;
-  color: var(--text-dim);
-  margin-bottom: 28px;
-}
+.login-title { font-size: 22px; font-weight: 700; color: var(--text-white); letter-spacing: -0.02em; margin-bottom: 6px; }
+.login-sub { font-size: 14px; color: var(--text-dim); margin-bottom: 28px; }
 .btn-google {
-  width: 100%;
-  background: white;
-  color: #1f1f1f;
+  width: 100%; background: white; color: #1f1f1f;
   border: 1px solid #d1d1d1;
-  padding: 13px 20px;
+  padding: 14px 20px;
   border-radius: 10px;
-  font-size: 14px;
-  font-weight: 600;
+  font-size: 14px; font-weight: 600;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: flex; align-items: center; justify-content: center;
   gap: 10px;
   font-family: var(--sans);
+  min-height: 50px;
 }
 .btn-google:hover { background: #f8f8f8; }
-.login-foot {
-  font-size: 11px;
-  color: var(--text-dim);
-  margin-top: 20px;
-  line-height: 1.5;
+.login-foot { font-size: 11px; color: var(--text-dim); margin-top: 20px; line-height: 1.5; }
+
+/* === BOTTOM NAV (mobile only) === */
+.bottom-nav {
+  display: none;
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  background: var(--bg-elev);
+  border-top: 1px solid var(--border);
+  padding: 8px 4px;
+  padding-bottom: calc(8px + var(--safe-bottom));
+  z-index: 30;
+  box-shadow: 0 -4px 20px rgba(0,0,0,0.2);
 }
+.bottom-nav-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 70px 1fr 1fr;
+  gap: 4px;
+  align-items: center;
+  max-width: 480px;
+  margin: 0 auto;
+}
+.bnav-item {
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 2px; padding: 6px 4px;
+  background: none; border: none;
+  color: var(--text-dim);
+  cursor: pointer; transition: color 0.15s;
+  font-family: var(--sans);
+  min-height: 50px;
+  border-radius: var(--radius-sm);
+}
+.bnav-item svg { width: 22px; height: 22px; stroke-width: 2; }
+.bnav-item span {
+  font-size: 10px; font-weight: 600;
+  letter-spacing: -0.01em;
+}
+.bnav-item.active { color: var(--teal); }
+.bnav-item.active svg { stroke-width: 2.4; }
+
+.bnav-fab-wrap {
+  display: flex; align-items: center; justify-content: center;
+  position: relative;
+}
+.bnav-fab {
+  width: 56px; height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--teal) 0%, var(--teal-dark) 100%);
+  color: white; border: none;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 16px rgba(13,148,136,0.4), 0 0 0 4px var(--bg-elev);
+  position: absolute;
+  top: -22px;
+  transition: transform 0.15s;
+}
+.bnav-fab:active { transform: scale(0.95); }
+.bnav-fab svg { width: 26px; height: 26px; stroke-width: 2.5; }
 
 /* === DEMO BANNER === */
 .demo-banner {
@@ -1391,23 +1090,213 @@ body {
 }
 .demo-banner b { color: var(--orange); }
 
+/* === TOAST === */
+.toast {
+  position: fixed;
+  bottom: 30px; left: 50%;
+  transform: translateX(-50%) translateY(80px);
+  background: var(--teal);
+  color: white;
+  padding: 12px 20px;
+  border-radius: var(--radius);
+  font-size: 13px; font-weight: 600;
+  box-shadow: var(--shadow-lg);
+  z-index: 200;
+  opacity: 0;
+  transition: opacity 0.25s, transform 0.25s;
+  pointer-events: none;
+  max-width: 90vw;
+}
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
 /* === SCROLLBAR === */
 ::-webkit-scrollbar { width: 10px; height: 10px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 10px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--border-hover); }
 
-@media (max-width: 900px) {
+/* ============================================
+   MOBILE LAYOUT (≤1023px)
+   ============================================ */
+@media (max-width: 1023px) {
   .app { grid-template-columns: 1fr; }
   .sidebar { display: none; }
-  .dash-row, .calc-wrap, .order-cols { grid-template-columns: 1fr; }
-  .stats-grid, .balance-cards { grid-template-columns: 1fr; }
+
+  /* TOP BAR mobile */
+  .topbar {
+    height: 56px;
+    padding: 0 14px;
+    padding-top: var(--safe-top);
+    height: calc(56px + var(--safe-top));
+    gap: 8px;
+  }
+  .topbar-title { font-size: 16px; }
+  .topbar-back { display: flex; }
+  .topbar-balance { padding: 6px 10px; font-size: 12px; }
+  .topbar-balance .label { display: none; }
+  .topbar-btn { width: 38px; height: 38px; }
+
+  /* CONTENT mobile */
+  .content {
+    padding: 16px;
+    padding-bottom: calc(110px + var(--safe-bottom));
+  }
+
+  /* TYPOGRAPHY */
+  .page-title { font-size: 22px; }
+  .page-subtitle { font-size: 13px; margin-bottom: 18px; }
+
+  /* HERO */
+  .hero {
+    grid-template-columns: 1fr;
+    padding: 22px 20px;
+    border-radius: var(--radius);
+  }
+  .hero-title { font-size: 22px; }
+  .hero-cta { width: 100%; justify-content: center; }
+
+  /* STATS */
+  .stats-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  .stat-card { padding: 16px 18px; }
+  .stat-value { font-size: 22px; }
+
+  /* DASHBOARD ROW → stack */
+  .dash-row { grid-template-columns: 1fr; }
+
+  /* RECENT ORDERS — convert to mobile cards inline */
+  .order-row {
+    grid-template-columns: 1fr auto;
+    gap: 8px;
+    padding: 14px 0;
+    align-items: start;
+  }
+  .order-row > div:first-child { grid-row: 1; grid-column: 1; }
+  .order-row .order-desc {
+    grid-row: 2; grid-column: 1 / -1;
+    font-size: 13px; margin-top: 4px;
+  }
+  .order-row .badge { grid-row: 1; grid-column: 2; }
+  .order-row .order-sum {
+    grid-row: 3; grid-column: 1 / -1;
+    text-align: left;
+    margin-top: 6px; font-size: 15px;
+  }
+
+  /* TABS */
+  .tabs {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab { padding: 10px 14px; font-size: 13px; flex-shrink: 0; }
+
+  /* FILTERS */
+  .filters {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .search-input { width: 100%; min-width: 0; }
+  .filter-btn { flex: 1; justify-content: center; padding: 10px; font-size: 12px; }
+
+  /* TABLE → cards */
+  .table-card { display: none; }
+  .order-cards { display: flex; }
+  .ledger-cards { display: flex; }
+  .doc-cards { display: flex; }
+
+  /* CALCULATOR layout */
+  .calc-wrap { grid-template-columns: 1fr; gap: 14px; }
+  .calc-form { gap: 12px; }
+  .price-card {
+    padding: 20px 18px;
+    border-radius: var(--radius);
+    grid-template-columns: 1fr;
+    gap: 14px;
+    align-items: start;
+  }
+  .price-amount { font-size: 32px; }
+  .price-qty { text-align: left; }
+  .price-qty .v { font-size: 20px; }
+
+  /* CART card mobile - normal flow */
+  .cart-card {
+    position: static;
+    margin-top: 14px;
+  }
+
+  /* ORDER DETAIL */
+  .order-cols { grid-template-columns: 1fr; }
+  .order-head {
+    flex-direction: column; gap: 12px;
+  }
+  .order-head-num { font-size: 24px; }
+
+  /* STEPPER → compact */
+  .stepper { display: none; }
+  .stepper-compact { display: block; }
+
+  /* POSITIONS */
+  .pos-row {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+  .pos-row .pos-qty {
+    grid-column: 1; font-size: 11px;
+  }
+  .pos-row .pos-sum {
+    grid-column: 1;
+    font-size: 16px;
+    margin-top: 4px;
+    padding-top: 8px;
+    border-top: 1px solid var(--border);
+  }
+
+  /* INFO ROWS */
+  .info-row { font-size: 13px; }
+  .info-row .v { font-size: 13px; }
+
+  /* BALANCE CARDS */
+  .balance-cards {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+  .bal-card { padding: 14px 12px; }
+  .bal-curr { font-size: 9px; letter-spacing: 1px; }
+  .bal-amount { font-size: 16px; }
+
+  /* CARD PADDING */
+  .card-padded { padding: 18px 20px; }
+
+  /* BOTTOM NAV */
+  .bottom-nav { display: block; }
 }
+
+/* === EXTRA SMALL (≤480px) === */
+@media (max-width: 480px) {
+  .balance-cards { gap: 6px; }
+  .bal-card { padding: 12px 10px; }
+  .bal-amount { font-size: 14px; }
+  .topbar-balance .label { display: none; }
+  .price-amount { font-size: 28px; }
+  .order-card { padding: 13px 14px; }
+  .stat-value { font-size: 20px; }
+}
+
+/* === UTILS === */
+.hidden { display: none !important; }
 </style>
 </head>
 <body>
 
-<!-- ======================= LOGIN SCREEN ======================= -->
+<!-- LOGIN -->
 <div class="login-wrap" id="login-wrap">
   <div class="login-card">
     <div class="login-logo">K</div>
@@ -1424,10 +1313,10 @@ body {
   </div>
 </div>
 
-<!-- ======================= APP ======================= -->
+<!-- APP -->
 <div class="app" id="app" style="display:none;">
 
-  <!-- SIDEBAR -->
+  <!-- SIDEBAR (desktop) -->
   <aside class="sidebar">
     <div class="logo">
       <div class="logo-mark">K</div>
@@ -1438,32 +1327,31 @@ body {
     </div>
 
     <div class="nav-label">Робота</div>
-    <div class="nav-item active" onclick="goto('home', this)">
+    <div class="nav-item active" data-screen="home" onclick="goto('home', this)">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12l9-9 9 9"/><path d="M5 10v10a1 1 0 001 1h3v-7h6v7h3a1 1 0 001-1V10"/></svg>
       Головна
     </div>
-    <div class="nav-item" onclick="goto('orders', this)">
+    <div class="nav-item" data-screen="orders" onclick="goto('orders', this)">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h10"/></svg>
-      Замовлення
-      <span class="nav-badge">4</span>
+      Замовлення <span class="nav-badge">4</span>
     </div>
-    <div class="nav-item" onclick="goto('plisse', this)">
+    <div class="nav-item" data-screen="plisse" onclick="goto('plisse', this)">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
       Створити плісе
     </div>
 
     <div class="nav-label">Фінанси</div>
-    <div class="nav-item" onclick="goto('balance', this)">
+    <div class="nav-item" data-screen="balance" onclick="goto('balance', this)">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18v12H3zM3 10h18M7 15h2"/></svg>
       Взаєморозрахунки
     </div>
-    <div class="nav-item" onclick="goto('docs', this)">
+    <div class="nav-item" data-screen="docs" onclick="goto('docs', this)">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg>
       Документи
     </div>
 
     <div class="nav-label">Інше</div>
-    <div class="nav-item" onclick="goto('profile', this)">
+    <div class="nav-item" data-screen="profile" onclick="goto('profile', this)">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21v-2a6 6 0 016-6h4a6 6 0 016 6v2"/></svg>
       Профіль
     </div>
@@ -1479,30 +1367,31 @@ body {
   <!-- MAIN -->
   <div class="main">
     <header class="topbar">
+      <button class="topbar-back" id="topbar-back" onclick="goBack()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
       <div class="topbar-title" id="topbar-title">Головна</div>
       <div class="topbar-spacer"></div>
-      <div class="topbar-balance">
-        <span class="label">Баланс</span><span id="topbar-bal-val">12 480 ₴</span>
-      </div>
-      <button class="topbar-btn" onclick="toggleTheme()" title="Змінити тему">
+      <div class="topbar-balance"><span class="label">Баланс</span><span id="topbar-bal-val">12 480 ₴</span></div>
+      <button class="topbar-btn" onclick="toggleTheme()" title="Тема">
         <svg id="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
       </button>
-      <button class="topbar-btn" title="Сповіщення">
+      <button class="topbar-btn">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8a6 6 0 00-12 0c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"/></svg>
       </button>
-      <div class="avatar" title="ТОВ Сонячна Сітка">СС</div>
+      <div class="avatar">СС</div>
     </header>
 
     <div class="content">
 
-      <!-- ============ SCREEN: HOME ============ -->
+      <!-- HOME -->
       <div class="screen active" id="screen-home">
         <div class="hero">
           <div>
             <div class="hero-greet">Доброго дня</div>
             <div class="hero-title">ТОВ «Сонячна Сітка»</div>
           </div>
-          <button class="hero-cta" onclick="goto('plisse', document.querySelectorAll('.nav-item')[2])">
+          <button class="hero-cta" onclick="gotoNav('plisse')">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
             Створити замовлення
           </button>
@@ -1522,7 +1411,7 @@ body {
           <div class="stat-card warn">
             <div class="stat-label">Чернеток</div>
             <div class="stat-value">1</div>
-            <div class="stat-foot">Створено 26.04 о 14:32</div>
+            <div class="stat-foot">Створено 26.04</div>
           </div>
         </div>
 
@@ -1530,7 +1419,7 @@ body {
           <div class="card card-padded">
             <div class="section-head">
               <div class="section-title">Останні замовлення</div>
-              <a class="section-link" onclick="goto('orders', document.querySelectorAll('.nav-item')[1])">Усі →</a>
+              <a class="section-link" onclick="gotoNav('orders')">Усі →</a>
             </div>
             <div id="recent-orders"></div>
           </div>
@@ -1545,14 +1434,14 @@ body {
               </div>
             </div>
             <div class="mgr-contacts">
-              <a class="mgr-contact"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>+380 67 123 45 67</a>
+              <a class="mgr-contact" href="tel:+380671234567"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>+380 67 123 45 67</a>
               <a class="mgr-contact"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path d="M22 6l-10 7L2 6"/></svg>m.koval@komax.ua</a>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- ============ SCREEN: ORDERS ============ -->
+      <!-- ORDERS -->
       <div class="screen" id="screen-orders">
         <h1 class="page-title">Замовлення</h1>
         <p class="page-subtitle">Усі ваші замовлення, чернетки та виконані роботи</p>
@@ -1573,26 +1462,24 @@ body {
           <button class="filter-btn">Статус</button>
         </div>
 
+        <!-- DESKTOP: TABLE -->
         <div class="table-card">
           <table class="table">
             <thead>
-              <tr>
-                <th>Номер</th>
-                <th>Дата</th>
-                <th>Опис</th>
-                <th>Статус</th>
-                <th>Сума</th>
-              </tr>
+              <tr><th>Номер</th><th>Дата</th><th>Опис</th><th>Статус</th><th>Сума</th></tr>
             </thead>
             <tbody id="orders-table"></tbody>
           </table>
         </div>
+
+        <!-- MOBILE: CARDS -->
+        <div class="order-cards" id="orders-cards"></div>
       </div>
 
-      <!-- ============ SCREEN: PLISSE CALCULATOR ============ -->
+      <!-- PLISSE CALCULATOR -->
       <div class="screen" id="screen-plisse">
-        <h1 class="page-title">Створити замовлення — плісе</h1>
-        <p class="page-subtitle">Розрахуйте позицію та додайте її до замовлення</p>
+        <h1 class="page-title">Створити замовлення</h1>
+        <p class="page-subtitle">Плісе — сітка з керамікою та полотнами</p>
 
         <div class="calc-wrap">
           <div class="calc-form">
@@ -1650,12 +1537,9 @@ body {
               </div>
             </div>
 
-            <button class="btn-add" onclick="addToCart()">
-              + Додати позицію
-            </button>
+            <button class="btn-add" onclick="addToCart()">+ Додати позицію</button>
           </div>
 
-          <!-- CART -->
           <div class="cart-card">
             <div class="cart-title">
               <span>Чернетка замовлення</span>
@@ -1670,11 +1554,11 @@ body {
             <div class="cart-meta" id="cart-meta" style="display:none">
               <div>
                 <label class="field-label">Бажана дата</label>
-                <input class="field-input" type="date" style="font-size: 13px;">
+                <input class="field-input" type="date" style="font-size: 14px;">
               </div>
               <div>
                 <label class="field-label">Коментар</label>
-                <input class="field-input" placeholder="Особливі побажання..." style="font-size: 13px;">
+                <input class="field-input" placeholder="Особливі побажання..." style="font-size: 14px;">
               </div>
             </div>
             <div class="cart-actions" id="cart-actions" style="display:none">
@@ -1688,9 +1572,9 @@ body {
         </div>
       </div>
 
-      <!-- ============ SCREEN: ORDER DETAIL ============ -->
+      <!-- ORDER DETAIL -->
       <div class="screen" id="screen-order">
-        <a class="section-link" onclick="goto('orders', document.querySelectorAll('.nav-item')[1])" style="font-size: 13px; display: inline-block; margin-bottom: 14px;">← До списку замовлень</a>
+        <a class="section-link" onclick="gotoNav('orders')" style="font-size: 13px; display: inline-block; margin-bottom: 14px;">← До списку замовлень</a>
 
         <div class="order-head">
           <div>
@@ -1701,12 +1585,13 @@ body {
               <span>Затверджено 23.04.2026</span>
             </div>
           </div>
-          <div style="display:flex; gap:8px; align-items: center;">
+          <div style="display:flex; gap:8px; align-items: center; flex-wrap: wrap;">
             <span class="badge production">В роботі</span>
             <span class="badge locked">🔒 Заблоковано</span>
           </div>
         </div>
 
+        <!-- DESKTOP STEPPER -->
         <div class="stepper">
           <div class="step done"><div class="step-dot">✓</div><div class="step-label">Чернетка</div></div>
           <div class="step done"><div class="step-dot">✓</div><div class="step-label">Перевірка</div></div>
@@ -1716,6 +1601,32 @@ body {
           <div class="step"><div class="step-dot">6</div><div class="step-label">Готово</div></div>
           <div class="step"><div class="step-dot">7</div><div class="step-label">Відвантажено</div></div>
           <div class="step"><div class="step-dot">8</div><div class="step-label">Виконано</div></div>
+        </div>
+
+        <!-- MOBILE COMPACT STEPPER -->
+        <div class="stepper-compact">
+          <div class="stepper-compact-card">
+            <div class="stepper-compact-current">
+              <div class="stepper-compact-dot">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
+              </div>
+              <div>
+                <div class="stepper-compact-label">Поточний статус</div>
+                <div class="stepper-compact-value">У роботі (виробництво)</div>
+              </div>
+            </div>
+            <div style="font-size: 12px; color: var(--text-dim); margin-bottom: 10px;">5 з 8 кроків · далі: Готово</div>
+            <div class="stepper-compact-progress">
+              <div class="stepper-compact-pip done"></div>
+              <div class="stepper-compact-pip done"></div>
+              <div class="stepper-compact-pip done"></div>
+              <div class="stepper-compact-pip done"></div>
+              <div class="stepper-compact-pip current"></div>
+              <div class="stepper-compact-pip"></div>
+              <div class="stepper-compact-pip"></div>
+              <div class="stepper-compact-pip"></div>
+            </div>
+          </div>
         </div>
 
         <div class="order-cols">
@@ -1740,33 +1651,31 @@ body {
                   <div class="pos-sum">5 720 ₴</div>
                 </div>
               </div>
-
               <div style="margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--border); display:flex; justify-content: space-between; align-items: center;">
                 <div style="font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-dim); font-weight: 700;">Разом 3 шт</div>
                 <div style="font-family: var(--mono); font-size: 20px; font-weight: 700; color: var(--text-white);">10 680 ₴</div>
               </div>
             </div>
 
-            <div class="card card-padded" style="margin-top: 18px;">
-              <div class="section-title" style="margin-bottom: 4px;">Деталі замовлення</div>
+            <div class="card card-padded" style="margin-top: 14px;">
+              <div class="section-title" style="margin-bottom: 4px;">Деталі</div>
               <div class="info-row"><span class="k">Бажана дата</span><span class="v mono">02.05.2026</span></div>
-              <div class="info-row"><span class="k">Адреса доставки</span><span class="v">м. Чернівці, вул. Хотинська 12</span></div>
-              <div class="info-row"><span class="k">ФОП</span><span class="v">ФОП Петренко І. М.</span></div>
-              <div class="info-row"><span class="k">Коментар партнера</span><span class="v">Доставка після 14:00</span></div>
+              <div class="info-row"><span class="k">Доставка</span><span class="v">м. Чернівці, вул. Хотинська 12</span></div>
+              <div class="info-row"><span class="k">ФОП</span><span class="v">Петренко І. М.</span></div>
+              <div class="info-row"><span class="k">Коментар</span><span class="v">Доставка після 14:00</span></div>
             </div>
 
-            <div class="card card-padded" style="margin-top: 18px;">
+            <div class="card card-padded" style="margin-top: 14px;">
               <div class="section-title" style="margin-bottom: 12px;">Історія</div>
               <div class="timeline">
                 <div class="tl-item"><div class="tl-dot"></div><div class="tl-content"><strong>Замовлення прийнято в роботу</strong><div class="tl-time">23.04.2026 о 16:42 · Firebird</div></div></div>
                 <div class="tl-item"><div class="tl-dot" style="background: var(--teal);"></div><div class="tl-content"><strong>Затверджено та відправлено в Firebird</strong><div class="tl-time">23.04.2026 о 14:18 · Микола Коваль</div></div></div>
                 <div class="tl-item"><div class="tl-dot" style="background: var(--teal);"></div><div class="tl-content"><strong>Прийнято на перевірку</strong><div class="tl-time">22.04.2026 о 11:05 · Микола Коваль</div></div></div>
-                <div class="tl-item"><div class="tl-dot" style="background: var(--teal);"></div><div class="tl-content"><strong>Створено замовлення</strong><div class="tl-time">22.04.2026 о 10:48 · ТОВ Сонячна Сітка</div></div></div>
+                <div class="tl-item"><div class="tl-dot" style="background: var(--teal);"></div><div class="tl-content"><strong>Створено замовлення</strong><div class="tl-time">22.04.2026 о 10:48</div></div></div>
               </div>
             </div>
           </div>
 
-          <!-- RIGHT COL -->
           <div>
             <div class="card card-padded">
               <div class="section-title" style="margin-bottom: 4px;">Сума</div>
@@ -1774,7 +1683,7 @@ body {
               <div style="font-size: 12px; color: var(--text-dim); margin-bottom: 14px;">Списується з балансу після статусу «Виконано»</div>
               <button class="btn btn-secondary btn-block">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg>
-                Завантажити рахунок PDF
+                Завантажити PDF
               </button>
             </div>
 
@@ -1788,16 +1697,16 @@ body {
                 </div>
               </div>
               <div class="mgr-contacts">
-                <a class="mgr-contact"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>+380 67 123 45 67</a>
+                <a class="mgr-contact" href="tel:+380671234567"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>+380 67 123 45 67</a>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- ============ SCREEN: ORDER DETAIL — clarification (alt) ============ -->
+      <!-- ORDER CLARIFY -->
       <div class="screen" id="screen-order-clarify">
-        <a class="section-link" onclick="goto('orders', document.querySelectorAll('.nav-item')[1])" style="font-size: 13px; display: inline-block; margin-bottom: 14px;">← До списку замовлень</a>
+        <a class="section-link" onclick="gotoNav('orders')" style="font-size: 13px; display: inline-block; margin-bottom: 14px;">← До списку замовлень</a>
 
         <div class="order-head">
           <div>
@@ -1825,19 +1734,34 @@ body {
           <div class="step"><div class="step-dot">8</div><div class="step-label">Виконано</div></div>
         </div>
 
+        <div class="stepper-compact">
+          <div class="stepper-compact-card">
+            <div class="stepper-compact-current">
+              <div class="stepper-compact-dot" style="background: var(--yellow-soft); border-color: var(--yellow);">
+                <svg viewBox="0 0 24 24" fill="none" stroke="var(--yellow)" stroke-width="2.4"><path d="M12 9v4M12 17h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/></svg>
+              </div>
+              <div>
+                <div class="stepper-compact-label">Поточний статус</div>
+                <div class="stepper-compact-value">Потребує уточнення</div>
+              </div>
+            </div>
+            <div style="font-size: 12px; color: var(--text-dim);">Дайте відповідь у коментарі вище</div>
+          </div>
+        </div>
+
         <div class="card card-padded">
           <div class="section-title" style="margin-bottom: 12px;">Дії</div>
-          <div style="display: flex; gap: 10px;">
-            <button class="btn btn-primary">
+          <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+            <button class="btn btn-primary" style="flex: 1; min-width: 200px;">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 113 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
-              Відкоригувати замовлення
+              Відкоригувати
             </button>
             <button class="btn btn-ghost">Скасувати</button>
           </div>
         </div>
       </div>
 
-      <!-- ============ SCREEN: BALANCE / LEDGER ============ -->
+      <!-- BALANCE -->
       <div class="screen" id="screen-balance">
         <h1 class="page-title">Взаєморозрахунки</h1>
         <p class="page-subtitle">Баланс по валютах та історія операцій</p>
@@ -1845,15 +1769,15 @@ body {
         <div class="balance-cards">
           <div class="bal-card">
             <div class="bal-curr">UAH</div>
-            <div class="bal-amount positive">12 480.00 ₴</div>
+            <div class="bal-amount positive">12 480 ₴</div>
           </div>
           <div class="bal-card">
             <div class="bal-curr">USD</div>
-            <div class="bal-amount">$ 0.00</div>
+            <div class="bal-amount">$ 0</div>
           </div>
           <div class="bal-card">
             <div class="bal-curr">EUR</div>
-            <div class="bal-amount">€ 0.00</div>
+            <div class="bal-amount">€ 0</div>
           </div>
         </div>
 
@@ -1863,59 +1787,68 @@ body {
           <button class="filter-btn">UAH</button>
         </div>
 
+        <!-- DESKTOP TABLE -->
         <div class="table-card">
           <table class="table">
             <thead>
-              <tr>
-                <th>Дата</th>
-                <th>Тип</th>
-                <th>Опис</th>
-                <th>Сума</th>
-                <th>Баланс після</th>
-              </tr>
+              <tr><th>Дата</th><th>Тип</th><th>Опис</th><th>Сума</th><th>Баланс після</th></tr>
             </thead>
             <tbody>
-              <tr>
-                <td class="col-date">24.04.2026</td>
-                <td><span class="badge completed">Оплата</span></td>
-                <td>Поповнення на ФОП Петренко І. М.</td>
-                <td><span class="ledger-amount positive">+ 15 000.00 ₴</span></td>
-                <td class="col-sum">12 480.00 ₴</td>
-              </tr>
-              <tr>
-                <td class="col-date">18.04.2026</td>
-                <td><span class="badge cancelled">Списання</span></td>
-                <td>Замовлення P1019 виконано</td>
-                <td><span class="ledger-amount negative">− 3 240.00 ₴</span></td>
-                <td class="col-sum">−2 520.00 ₴</td>
-              </tr>
-              <tr>
-                <td class="col-date">15.04.2026</td>
-                <td><span class="badge cancelled">Списання</span></td>
-                <td>Замовлення P1015 виконано</td>
-                <td><span class="ledger-amount negative">− 5 480.00 ₴</span></td>
-                <td class="col-sum">720.00 ₴</td>
-              </tr>
-              <tr>
-                <td class="col-date">10.04.2026</td>
-                <td><span class="badge completed">Оплата</span></td>
-                <td>Поповнення</td>
-                <td><span class="ledger-amount positive">+ 6 200.00 ₴</span></td>
-                <td class="col-sum">6 200.00 ₴</td>
-              </tr>
-              <tr>
-                <td class="col-date">02.04.2026</td>
-                <td><span class="badge cancelled">Списання</span></td>
-                <td>Замовлення P1011 виконано</td>
-                <td><span class="ledger-amount negative">− 4 100.00 ₴</span></td>
-                <td class="col-sum">0.00 ₴</td>
-              </tr>
+              <tr><td class="col-date">24.04.2026</td><td><span class="badge completed">Оплата</span></td><td>Поповнення</td><td><span class="ledger-amount positive">+ 15 000 ₴</span></td><td class="col-sum">12 480 ₴</td></tr>
+              <tr><td class="col-date">18.04.2026</td><td><span class="badge cancelled">Списання</span></td><td>Замовлення P1019 виконано</td><td><span class="ledger-amount negative">− 3 240 ₴</span></td><td class="col-sum">−2 520 ₴</td></tr>
+              <tr><td class="col-date">15.04.2026</td><td><span class="badge cancelled">Списання</span></td><td>Замовлення P1015 виконано</td><td><span class="ledger-amount negative">− 5 480 ₴</span></td><td class="col-sum">720 ₴</td></tr>
+              <tr><td class="col-date">10.04.2026</td><td><span class="badge completed">Оплата</span></td><td>Поповнення</td><td><span class="ledger-amount positive">+ 6 200 ₴</span></td><td class="col-sum">6 200 ₴</td></tr>
+              <tr><td class="col-date">02.04.2026</td><td><span class="badge cancelled">Списання</span></td><td>Замовлення P1011 виконано</td><td><span class="ledger-amount negative">− 4 100 ₴</span></td><td class="col-sum">0 ₴</td></tr>
             </tbody>
           </table>
         </div>
+
+        <!-- MOBILE CARDS -->
+        <div class="ledger-cards">
+          <div class="ledger-card">
+            <div class="ledger-card-top">
+              <span class="badge completed">Оплата</span>
+              <span class="ledger-card-amount" style="color: var(--green);">+ 15 000 ₴</span>
+            </div>
+            <div class="ledger-card-desc">Поповнення на ФОП Петренко І. М.</div>
+            <div class="ledger-card-foot"><span>24.04.2026</span><span>Баланс: 12 480 ₴</span></div>
+          </div>
+          <div class="ledger-card">
+            <div class="ledger-card-top">
+              <span class="badge cancelled">Списання</span>
+              <span class="ledger-card-amount" style="color: var(--red);">− 3 240 ₴</span>
+            </div>
+            <div class="ledger-card-desc">Замовлення P1019 виконано</div>
+            <div class="ledger-card-foot"><span>18.04.2026</span><span>Баланс: −2 520 ₴</span></div>
+          </div>
+          <div class="ledger-card">
+            <div class="ledger-card-top">
+              <span class="badge cancelled">Списання</span>
+              <span class="ledger-card-amount" style="color: var(--red);">− 5 480 ₴</span>
+            </div>
+            <div class="ledger-card-desc">Замовлення P1015 виконано</div>
+            <div class="ledger-card-foot"><span>15.04.2026</span><span>Баланс: 720 ₴</span></div>
+          </div>
+          <div class="ledger-card">
+            <div class="ledger-card-top">
+              <span class="badge completed">Оплата</span>
+              <span class="ledger-card-amount" style="color: var(--green);">+ 6 200 ₴</span>
+            </div>
+            <div class="ledger-card-desc">Поповнення</div>
+            <div class="ledger-card-foot"><span>10.04.2026</span><span>Баланс: 6 200 ₴</span></div>
+          </div>
+          <div class="ledger-card">
+            <div class="ledger-card-top">
+              <span class="badge cancelled">Списання</span>
+              <span class="ledger-card-amount" style="color: var(--red);">− 4 100 ₴</span>
+            </div>
+            <div class="ledger-card-desc">Замовлення P1011 виконано</div>
+            <div class="ledger-card-foot"><span>02.04.2026</span><span>Баланс: 0 ₴</span></div>
+          </div>
+        </div>
       </div>
 
-      <!-- ============ SCREEN: DOCUMENTS ============ -->
+      <!-- DOCUMENTS -->
       <div class="screen" id="screen-docs">
         <h1 class="page-title">Документи</h1>
         <p class="page-subtitle">PDF-рахунки за вашими замовленнями</p>
@@ -1923,55 +1856,61 @@ body {
         <div class="filters">
           <input class="search-input" placeholder="Пошук за номером..." />
           <button class="filter-btn">Період</button>
-          <button class="filter-btn">ФОП</button>
         </div>
 
+        <!-- DESKTOP TABLE -->
         <div class="table-card">
           <table class="table">
             <thead>
-              <tr>
-                <th>Дата</th>
-                <th>Номер рахунку</th>
-                <th>ФОП</th>
-                <th>Сума</th>
-                <th>Дія</th>
-              </tr>
+              <tr><th>Дата</th><th>Номер</th><th>ФОП</th><th>Сума</th><th>Дія</th></tr>
             </thead>
             <tbody>
-              <tr>
-                <td class="col-date">23.04.2026</td>
-                <td class="col-num">Р-1024</td>
-                <td>ФОП Петренко І. М.</td>
-                <td class="col-sum">10 680.00 ₴</td>
-                <td><a class="section-link">Завантажити PDF</a></td>
-              </tr>
-              <tr>
-                <td class="col-date">18.04.2026</td>
-                <td class="col-num">Р-1019</td>
-                <td>ФОП Петренко І. М.</td>
-                <td class="col-sum">3 240.00 ₴</td>
-                <td><a class="section-link">Завантажити PDF</a></td>
-              </tr>
-              <tr>
-                <td class="col-date">15.04.2026</td>
-                <td class="col-num">Р-1015</td>
-                <td>ФОП Петренко І. М.</td>
-                <td class="col-sum">5 480.00 ₴</td>
-                <td><a class="section-link">Завантажити PDF</a></td>
-              </tr>
-              <tr>
-                <td class="col-date">02.04.2026</td>
-                <td class="col-num">Р-1011</td>
-                <td>ФОП Петренко І. М.</td>
-                <td class="col-sum">4 100.00 ₴</td>
-                <td><a class="section-link">Завантажити PDF</a></td>
-              </tr>
+              <tr><td class="col-date">23.04.2026</td><td class="col-num">Р-1024</td><td>ФОП Петренко І. М.</td><td class="col-sum">10 680 ₴</td><td><a class="section-link">Завантажити PDF</a></td></tr>
+              <tr><td class="col-date">18.04.2026</td><td class="col-num">Р-1019</td><td>ФОП Петренко І. М.</td><td class="col-sum">3 240 ₴</td><td><a class="section-link">Завантажити PDF</a></td></tr>
+              <tr><td class="col-date">15.04.2026</td><td class="col-num">Р-1015</td><td>ФОП Петренко І. М.</td><td class="col-sum">5 480 ₴</td><td><a class="section-link">Завантажити PDF</a></td></tr>
+              <tr><td class="col-date">02.04.2026</td><td class="col-num">Р-1011</td><td>ФОП Петренко І. М.</td><td class="col-sum">4 100 ₴</td><td><a class="section-link">Завантажити PDF</a></td></tr>
             </tbody>
           </table>
         </div>
+
+        <!-- MOBILE CARDS -->
+        <div class="doc-cards">
+          <div class="doc-card" onclick="toast('Завантаження Р-1024.pdf...')">
+            <div class="doc-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg></div>
+            <div class="doc-card-info">
+              <div class="doc-card-num">Р-1024</div>
+              <div class="doc-card-meta">23.04.2026 · ФОП Петренко І. М.</div>
+            </div>
+            <div class="doc-card-sum">10 680 ₴</div>
+          </div>
+          <div class="doc-card" onclick="toast('Завантаження Р-1019.pdf...')">
+            <div class="doc-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg></div>
+            <div class="doc-card-info">
+              <div class="doc-card-num">Р-1019</div>
+              <div class="doc-card-meta">18.04.2026 · ФОП Петренко І. М.</div>
+            </div>
+            <div class="doc-card-sum">3 240 ₴</div>
+          </div>
+          <div class="doc-card" onclick="toast('Завантаження Р-1015.pdf...')">
+            <div class="doc-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg></div>
+            <div class="doc-card-info">
+              <div class="doc-card-num">Р-1015</div>
+              <div class="doc-card-meta">15.04.2026 · ФОП Петренко І. М.</div>
+            </div>
+            <div class="doc-card-sum">5 480 ₴</div>
+          </div>
+          <div class="doc-card" onclick="toast('Завантаження Р-1011.pdf...')">
+            <div class="doc-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg></div>
+            <div class="doc-card-info">
+              <div class="doc-card-num">Р-1011</div>
+              <div class="doc-card-meta">02.04.2026 · ФОП Петренко І. М.</div>
+            </div>
+            <div class="doc-card-sum">4 100 ₴</div>
+          </div>
+        </div>
       </div>
 
-      <!-- ============ SCREEN: PROFILE ============ -->
+      <!-- PROFILE -->
       <div class="screen" id="screen-profile">
         <h1 class="page-title">Профіль</h1>
         <p class="page-subtitle">Інформація про вашу компанію та ФОП</p>
@@ -1987,23 +1926,21 @@ body {
           <div class="card card-padded">
             <div class="section-title" style="margin-bottom: 14px;">Дані компанії</div>
             <div class="info-row"><span class="k">Назва</span><span class="v">ТОВ «Сонячна Сітка»</span></div>
-            <div class="info-row"><span class="k">Контактна особа</span><span class="v">Петренко Іван Миколайович</span></div>
+            <div class="info-row"><span class="k">Контакт</span><span class="v">Петренко І. М.</span></div>
             <div class="info-row"><span class="k">Телефон</span><span class="v mono">+380 50 555 12 34</span></div>
             <div class="info-row"><span class="k">Email</span><span class="v mono">i.petrenko@sonyachna.ua</span></div>
             <div class="info-row"><span class="k">Місто</span><span class="v">Чернівці</span></div>
-            <div class="info-row"><span class="k">Адреса</span><span class="v">вул. Хотинська 12</span></div>
-            <p class="lock-note">Зміна даних — через менеджера. Зверніться до Миколи Коваля.</p>
+            <p class="lock-note">Зміна даних — через менеджера.</p>
           </div>
         </div>
 
         <div id="prof-fop" style="display:none">
           <div class="card card-padded">
-            <div class="section-title" style="margin-bottom: 14px;">ФОП Петренко Іван Миколайович</div>
+            <div class="section-title" style="margin-bottom: 14px;">ФОП Петренко І. М.</div>
             <div class="info-row"><span class="k">ІПН</span><span class="v mono">3145678910</span></div>
-            <div class="info-row"><span class="k">IBAN</span><span class="v mono">UA213996220000026000123456789</span></div>
-            <div class="info-row"><span class="k">Банк</span><span class="v">АТ «ПриватБанк»</span></div>
-            <div class="info-row"><span class="k">Група</span><span class="v">3 група, єдиний податок 5%</span></div>
-            <div class="info-row"><span class="k">Адреса</span><span class="v">м. Чернівці, вул. Хотинська 12</span></div>
+            <div class="info-row"><span class="k">IBAN</span><span class="v mono" style="font-size: 11px; word-break: break-all;">UA2139962200000260001234</span></div>
+            <div class="info-row"><span class="k">Банк</span><span class="v">ПриватБанк</span></div>
+            <div class="info-row"><span class="k">Група</span><span class="v">3 група, 5%</span></div>
             <p class="lock-note">Реквізити для PDF-рахунків. Зміна — через менеджера.</p>
           </div>
         </div>
@@ -2015,11 +1952,11 @@ body {
               <div class="mgr-avatar">МК</div>
               <div>
                 <div class="mgr-name">Микола Коваль</div>
-                <div class="mgr-role">Менеджер партнерів · з 12.03.2024</div>
+                <div class="mgr-role">З 12.03.2024</div>
               </div>
             </div>
             <div class="mgr-contacts">
-              <a class="mgr-contact"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>+380 67 123 45 67</a>
+              <a class="mgr-contact" href="tel:+380671234567"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>+380 67 123 45 67</a>
               <a class="mgr-contact"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path d="M22 6l-10 7L2 6"/></svg>m.koval@komax.ua</a>
             </div>
           </div>
@@ -2035,37 +1972,69 @@ body {
                 <div class="google-status">✓ Підключено через Google</div>
               </div>
             </div>
-            <p class="lock-note" style="margin-top: 14px;">Вхід здійснюється через Google. Паролі ми не зберігаємо. Якщо потрібно змінити email — зверніться до менеджера.</p>
+            <p class="lock-note" style="margin-top: 14px;">Вхід через Google. Паролі не зберігаються.</p>
           </div>
 
           <div class="card card-padded" style="margin-top: 14px;">
-            <div class="section-title" style="margin-bottom: 14px;">Активні сесії</div>
-            <div class="info-row"><span class="k">Поточний пристрій</span><span class="v">Chrome · Windows · Чернівці</span></div>
-            <div class="info-row"><span class="k">Останній вхід</span><span class="v mono">26.04.2026 о 14:32</span></div>
+            <div class="section-title" style="margin-bottom: 14px;">Активна сесія</div>
+            <div class="info-row"><span class="k">Пристрій</span><span class="v">Chrome · Windows</span></div>
+            <div class="info-row"><span class="k">Останній вхід</span><span class="v mono">26.04 о 14:32</span></div>
+            <button class="btn btn-secondary btn-block" style="margin-top: 14px;" onclick="logout()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/></svg>
+              Вийти з кабінету
+            </button>
           </div>
         </div>
       </div>
 
     </div>
   </div>
+
+  <!-- BOTTOM NAV (mobile) -->
+  <nav class="bottom-nav">
+    <div class="bottom-nav-grid">
+      <button class="bnav-item active" data-bnav="home" onclick="gotoNav('home')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12l9-9 9 9"/><path d="M5 10v10a1 1 0 001 1h3v-7h6v7h3a1 1 0 001-1V10"/></svg>
+        <span>Головна</span>
+      </button>
+      <button class="bnav-item" data-bnav="orders" onclick="gotoNav('orders')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M4 12h16M4 17h10"/></svg>
+        <span>Замовлення</span>
+      </button>
+      <div class="bnav-fab-wrap">
+        <button class="bnav-fab" onclick="gotoNav('plisse')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+        </button>
+      </div>
+      <button class="bnav-item" data-bnav="balance" onclick="gotoNav('balance')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18v12H3zM3 10h18M7 15h2"/></svg>
+        <span>Розрахунки</span>
+      </button>
+      <button class="bnav-item" data-bnav="profile" onclick="gotoNav('profile')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21v-2a6 6 0 016-6h4a6 6 0 016 6v2"/></svg>
+        <span>Профіль</span>
+      </button>
+    </div>
+  </nav>
 </div>
 
+<!-- TOAST -->
+<div class="toast" id="toast">Збережено</div>
+
 <script>
-// ============ STATE ============
 let currentScreen = 'home';
+let prevScreen = null;
 let calcCat = 'win';
 let calcType = 'w_vr';
 let calcColor = 'white';
 let cart = [];
 
-// Mock pricing per sq.m. (UAH) per type — это упрощение для прототипа,
-// в реальной системе дёргаем dim.komax /api/calc/plisse-v2
 const PRICE_PER_SQM = {
   w_vr: 1850, w_gr: 1900, w_vr_vsn: 1950, w_gr_vsn: 2000,
   d_vr_rr: 2400, d_vr_rp: 2550, d_gr_rr: 2400, d_gr_rp: 2550,
 };
 const COLOR_MULT = { white: 1, brown: 1.04, anthracite: 1.06 };
-const PARTNER_COEF = 0.62; // только для демо — на бэке в реальной системе
+const PARTNER_COEF = 0.62;
 
 const TYPE_FULL = {
   w_vr: 'Сітка плісе віконна ВР · Z кріплення',
@@ -2093,62 +2062,93 @@ const ORDERS = [
 const STATUS_LABELS = {
   draft: 'Чернетка', review: 'На перевірці', clarify: 'Уточнення',
   approved: 'Затверджено', production: 'В роботі', shipped: 'Відвантажено',
-  completed: 'Виконано', cancelled: 'Скасовано', error: 'Помилка'
+  completed: 'Виконано', cancelled: 'Скасовано',
 };
 
-// ============ INIT ============
+// === INIT ===
 function init() {
   const savedTheme = localStorage.getItem('komax-theme');
-  if (savedTheme) document.documentElement.setAttribute('data-theme', savedTheme);
+  if (savedTheme) {
+    document.documentElement.setAttribute('data-theme', savedTheme);
+    if (savedTheme === 'light') swapThemeIcon('light');
+  }
   renderRecent();
-  renderOrdersTable();
-  recalc();
+  renderOrders();
 }
 
 function loginDemo() {
   document.getElementById('login-wrap').style.display = 'none';
   document.getElementById('app').style.display = 'grid';
 }
-
 function logout() {
   document.getElementById('login-wrap').style.display = 'flex';
   document.getElementById('app').style.display = 'none';
 }
 
-// ============ THEME ============
-function toggleTheme() {
-  const cur = document.documentElement.getAttribute('data-theme');
-  const next = cur === 'dark' ? 'light' : 'dark';
-  document.documentElement.setAttribute('data-theme', next);
-  localStorage.setItem('komax-theme', next);
-  // swap icon
+// === THEME ===
+function swapThemeIcon(theme) {
   const icon = document.getElementById('theme-icon');
-  if (next === 'light') {
+  if (theme === 'light') {
     icon.innerHTML = '<circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>';
   } else {
     icon.innerHTML = '<path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>';
   }
 }
+function toggleTheme() {
+  const cur = document.documentElement.getAttribute('data-theme');
+  const next = cur === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', next);
+  document.querySelector('meta[name="theme-color"]').setAttribute('content', next === 'dark' ? '#0c1219' : '#ffffff');
+  localStorage.setItem('komax-theme', next);
+  swapThemeIcon(next);
+}
 
-// ============ NAVIGATION ============
+// === NAV ===
 function goto(screen, navEl) {
+  prevScreen = currentScreen;
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById('screen-' + screen).classList.add('active');
+
+  // sidebar (desktop) sync
+  const matchingSidebar = document.querySelector(`.sidebar .nav-item[data-screen="${screen}"]`);
   if (navEl) {
-    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-    navEl.classList.add('active');
+    document.querySelectorAll('.sidebar .nav-item').forEach(n => n.classList.remove('active'));
+    if (navEl.classList.contains('nav-item')) navEl.classList.add('active');
+    else if (matchingSidebar) matchingSidebar.classList.add('active');
+  } else if (matchingSidebar) {
+    document.querySelectorAll('.sidebar .nav-item').forEach(n => n.classList.remove('active'));
+    matchingSidebar.classList.add('active');
   }
+
+  // bottom nav (mobile) sync
+  const bnavMap = { home: 'home', orders: 'orders', plisse: null, balance: 'balance', profile: 'profile' };
+  document.querySelectorAll('.bnav-item').forEach(b => b.classList.remove('active'));
+  const bnavId = bnavMap[screen];
+  if (bnavId) {
+    const b = document.querySelector(`.bnav-item[data-bnav="${bnavId}"]`);
+    if (b) b.classList.add('active');
+  }
+
   const titles = {
     home: 'Головна', orders: 'Замовлення', plisse: 'Створити плісе',
     order: 'Замовлення P1024', 'order-clarify': 'Замовлення P1027',
-    balance: 'Взаєморозрахунки', docs: 'Документи', profile: 'Профіль'
+    balance: 'Розрахунки', docs: 'Документи', profile: 'Профіль',
   };
   document.getElementById('topbar-title').textContent = titles[screen] || '';
+
+  // back button visibility
+  const backBtn = document.getElementById('topbar-back');
+  const isDetail = ['order', 'order-clarify'].includes(screen);
+  backBtn.style.display = isDetail ? 'flex' : '';
+
   currentScreen = screen;
   window.scrollTo(0, 0);
 }
 
-// ============ RECENT ORDERS (HOME) ============
+function gotoNav(screen) { goto(screen, null); }
+function goBack() { goto(prevScreen || 'orders', null); }
+
+// === RECENT ORDERS ===
 function renderRecent() {
   const recent = ORDERS.slice(0, 4);
   const html = recent.map(o => `
@@ -2167,17 +2167,19 @@ function renderRecent() {
 
 function openOrder(s) {
   if (s === 'order-clarify') goto('order-clarify');
-  else if (s === 'plisse') goto('plisse', document.querySelectorAll('.nav-item')[2]);
+  else if (s === 'plisse') goto('plisse');
   else goto('order');
 }
 
-// ============ ORDERS TABLE ============
-function renderOrdersTable(filter='all') {
+// === ORDERS LIST ===
+function renderOrders(filter='all') {
   let list = ORDERS;
   if (filter === 'active') list = ORDERS.filter(o => ['review','clarify','approved','production','shipped'].includes(o.status));
   if (filter === 'drafts') list = ORDERS.filter(o => o.status === 'draft');
   if (filter === 'done') list = ORDERS.filter(o => o.status === 'completed');
-  const html = list.map(o => `
+
+  // desktop table
+  document.getElementById('orders-table').innerHTML = list.map(o => `
     <tr onclick="openOrder('${o.clickScreen}')">
       <td class="col-num">${o.num}</td>
       <td class="col-date">${o.date}</td>
@@ -2186,16 +2188,30 @@ function renderOrdersTable(filter='all') {
       <td class="col-sum">${o.sum}</td>
     </tr>
   `).join('');
-  document.getElementById('orders-table').innerHTML = html;
+
+  // mobile cards
+  document.getElementById('orders-cards').innerHTML = list.map(o => `
+    <div class="order-card" onclick="openOrder('${o.clickScreen}')">
+      <div class="order-card-top">
+        <div class="order-card-num">${o.num}</div>
+        <span class="badge ${o.status}">${STATUS_LABELS[o.status]}</span>
+      </div>
+      <div class="order-card-desc">${o.desc}</div>
+      <div class="order-card-bot">
+        <div class="order-card-date">${o.date}</div>
+        <div class="order-card-sum">${o.sum}</div>
+      </div>
+    </div>
+  `).join('');
 }
 
 function filterOrders(filter, btnEl) {
   document.querySelectorAll('#screen-orders .tab').forEach(t => t.classList.remove('active'));
   btnEl.classList.add('active');
-  renderOrdersTable(filter);
+  renderOrders(filter);
 }
 
-// ============ CALCULATOR ============
+// === CALCULATOR ===
 function setCalcCat(cat) {
   calcCat = cat;
   document.getElementById('cat-win').className = 'cat-tab' + (cat === 'win' ? ' active-win' : '');
@@ -2221,7 +2237,7 @@ function setCalcType(type, btnEl) {
   calcType = type;
   const isDoor = type.startsWith('d_');
   const tabs = document.querySelectorAll(isDoor ? '#type-tabs-door .type-tab' : '#type-tabs-win .type-tab');
-  tabs.forEach(t => t.className = 'type-tab' + (isDoor ? '' : ''));
+  tabs.forEach(t => t.className = 'type-tab');
   btnEl.className = 'type-tab' + (isDoor ? ' active-d' : ' active');
   recalc();
 }
@@ -2237,9 +2253,9 @@ function recalc() {
   const W = Math.max(0, parseInt(document.getElementById('calc-w').value) || 0);
   const H = Math.max(0, parseInt(document.getElementById('calc-h').value) || 0);
   const qty = Math.max(1, parseInt(document.getElementById('calc-qty').value) || 1);
-  const area = (W * H) / 1e6; // m²
-  const base = area * PRICE_PER_SQM[calcType] * COLOR_MULT[calcColor] + 280; // base cost + admin
-  const partner = base * PARTNER_COEF + base * (1 - PARTNER_COEF) * 0.5; // упрощённое применение коэффициента
+  const area = (W * H) / 1e6;
+  const base = area * PRICE_PER_SQM[calcType] * COLOR_MULT[calcColor] + 280;
+  const partner = base * PARTNER_COEF + base * (1 - PARTNER_COEF) * 0.5;
   const oneShown = Math.round(partner / 10) * 10;
   document.getElementById('price-amount').textContent = formatUah(oneShown);
   document.getElementById('price-meta').textContent = `за 1 шт · з ПДВ`;
@@ -2254,13 +2270,10 @@ function addToCart() {
   const W = parseInt(document.getElementById('calc-w').value);
   const H = parseInt(document.getElementById('calc-h').value);
   const qty = parseInt(document.getElementById('calc-qty').value);
-  const priceText = document.getElementById('price-amount').textContent;
   const total = document.getElementById('price-total').textContent;
-  cart.push({
-    type: calcType, color: calcColor, W, H, qty,
-    price: priceText, total: total
-  });
+  cart.push({ type: calcType, color: calcColor, W, H, qty, total });
   renderCart();
+  toast('Додано в замовлення');
 }
 
 function renderCart() {
@@ -2298,14 +2311,23 @@ function removeFromCart(i) {
   renderCart();
 }
 
-// ============ PROFILE TABS ============
+// === PROFILE TABS ===
 function switchProfileTab(t, btnEl) {
   document.querySelectorAll('.profile-tab').forEach(p => p.classList.remove('active'));
   btnEl.classList.add('active');
-  document.getElementById('prof-main').style.display = t === 'main' ? '' : 'none';
-  document.getElementById('prof-fop').style.display = t === 'fop' ? '' : 'none';
-  document.getElementById('prof-mgr').style.display = t === 'mgr' ? '' : 'none';
-  document.getElementById('prof-sec').style.display = t === 'sec' ? '' : 'none';
+  ['main','fop','mgr','sec'].forEach(k => {
+    document.getElementById('prof-' + k).style.display = (k === t) ? '' : 'none';
+  });
+}
+
+// === TOAST ===
+let toastTimer = null;
+function toast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  if (toastTimer) clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove('show'), 2000);
 }
 
 init();
